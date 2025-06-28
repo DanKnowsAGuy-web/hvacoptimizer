@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC Savings Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #111827;
+            color: white;
+            padding: 8px;
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            margin-bottom: 4px;
+        }
+        
+        .header p {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            body {
+                padding: 16px;
+            }
+            .header {
+                margin-bottom: 24px;
+            }
+        }
+        
+        .card {
+            background: #1f2937;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        @media (min-width: 480px) {
+            .button-group {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        
+        .rate-button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: #374151;
+            color: #d1d5db;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-align: center;
+            transition: background-color 0.2s;
+            line-height: 1.2;
+        }
+        
+        .rate-button:hover {
+            background: #4b5563;
+        }
+        
+        .rate-button.active {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .input-field {
+            background: #374151;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 4px;
+            color: white;
+            width: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .system-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .counter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .counter-btn {
+            background: #374151;
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .counter-btn:hover {
+            background: #4b5563;
+        }
+        
+        .counter-value {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #374151;
+            outline: none;
+            cursor: pointer;
+            margin: 12px 0;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-top: 6px;
+        }
+        
+        .slider-labels span {
+            color: #9ca3af;
+        }
+        
+        .slider-labels span.active {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        
+        .slider-description {
+            text-align: center;
+            color: #d1d5db;
+            font-size: 0.75rem;
+            margin-top: 6px;
+        }
+        
+        .effectiveness-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #374151;
+            outline: none;
+            cursor: pointer;
+            margin: 12px 0;
+        }
+        
+        .effectiveness-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #2563eb;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .effectiveness-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #2563eb;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .effectiveness-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 0.75rem;
+        }
+        
+        .effectiveness-center {
+            text-align: center;
+        }
+        
+        .effectiveness-value {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        
+        .effectiveness-desc {
+            font-size: 0.65rem;
+            color: #93c5fd;
+        }
+        
+        .results-card {
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+            text-align: center;
+        }
+        
+        .result-item {
+            background: #1f2937;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .result-label {
+            color: #d1d5db;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .result-value.savings {
+            color: #10b981;
+        }
+        
+        .result-value.investment {
+            color: #60a5fa;
+        }
+        
+        .result-value.payback {
+            color: #f59e0b;
+        }
+        
+        .result-sub {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        
+        .summary-card {
+            background: #1f2937;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+        }
+        
+        .summary-label {
+            color: #9ca3af;
+        }
+        
+        .small-text {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Your HVAC Savings Impact</h1>
+            <p>Savings for your single compressor HVAC</p>
+        </div>
+
+        <div class="grid">
+            <!-- Inputs Section -->
+            <div>
+                <!-- Electric Rate -->
+                <div class="card">
+                    <h3>1. Electric Rate</h3>
+                    
+                    <div class="button-group">
+                        <button class="rate-button active" onclick="setRate('conservative', 0.11)">
+                            Conservative<br><small>$0.11/kWh</small>
+                        </button>
+                        <button class="rate-button" onclick="setRate('moderate', 0.15)">
+                            Moderate<br><small>$0.15/kWh</small>
+                        </button>
+                        <button class="rate-button" onclick="setRate('expensive', 0.20)">
+                            Expensive<br><small>$0.20/kWh</small>
+                        </button>
+                    </div>
+
+                    <div class="input-row">
+                        <span>$</span>
+                        <input type="number" id="electricRate" class="input-field" value="0.11" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
+                        <span>per kWh</span>
+                    </div>
+                    <p class="small-text">Range: $0.08 - $0.35/kWh</p>
+                </div>
+
+                <!-- HVAC Systems -->
+                <div class="card">
+                    <h3>2. HVAC Systems</h3>
+                    
+                    <div class="system-row">
+                        <span>3-ton units:</span>
+                        <div class="counter-group">
+                            <button class="counter-btn" onclick="changeSystem('threeTon', -1)">−</button>
+                            <span class="counter-value" id="threeTon">0</span>
+                            <button class="counter-btn" onclick="changeSystem('threeTon', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="system-row">
+                        <span>5-ton units:</span>
+                        <div class="counter-group">
+                            <button class="counter-btn" onclick="changeSystem('fiveTon', -1)">−</button>
+                            <span class="counter-value" id="fiveTon">0</span>
+                            <button class="counter-btn" onclick="changeSystem('fiveTon', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="system-row">
+                        <span>10-ton units:</span>
+                        <div class="counter-group">
+                            <button class="counter-btn" onclick="changeSystem('tenTon', -1)">−</button>
+                            <span class="counter-value" id="tenTon">0</span>
+                            <button class="counter-btn" onclick="changeSystem('tenTon', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage Intensity -->
+                <div class="card">
+                    <h3>3. Usage Intensity</h3>
+                    
+                    <input type="range" id="usageSlider" class="slider" min="0" max="2" value="1" oninput="updateUsage()">
+                    
+                    <div class="slider-labels">
+                        <span id="light">Light</span>
+                        <span id="moderate" class="active">Moderate</span>
+                        <span id="heavy">Heavy</span>
+                    </div>
+                    
+                    <div class="slider-description" id="usageDesc">(Standard commercial)</div>
+                </div>
+
+                <!-- Savings from HVAC Optimizer -->
+                <div class="card">
+                    <h3>4. Savings from HVAC Optimizer</h3>
+                    
+                    <input type="range" id="effectivenessSlider" class="effectiveness-slider" min="15" max="30" value="20" oninput="updateEffectiveness()">
+                    
+                    <div class="effectiveness-labels">
+                        <div style="text-align: center;">
+                            <div style="color: #9ca3af;">Conservative</div>
+                            <div style="font-size: 0.65rem; color: #6b7280;">15%</div>
+                        </div>
+                        <div class="effectiveness-center">
+                            <div class="effectiveness-value" id="effectivenessValue">20%</div>
+                            <div class="effectiveness-desc" id="effectivenessDesc">Average</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #9ca3af;">Excellent</div>
+                            <div style="font-size: 0.65rem; color: #6b7280;">30%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div>
+                <div class="card results-card">
+                    <h3 style="color: #93c5fd; margin-bottom: 16px;">Results</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Monthly HVAC Energy Savings:</div>
+                        <div class="result-value savings" id="monthlySavings">$0</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Total Equipment Investment:</div>
+                        <div class="result-value investment" id="equipmentCost">$0</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Payback Period:</div>
+                        <div class="result-value payback" id="paybackPeriod">N/A</div>
+                        <div class="result-sub" id="paybackYears"></div>
+                    </div>
+                </div>
+                
+                <!-- Summary Card -->
+                <div class="card summary-card">
+                    <h3 style="color: #60a5fa; margin-bottom: 12px;">Configuration Summary</h3>
+                    <div class="summary-item">
+                        <span class="summary-label">Electric Rate:</span>
+                        <span id="summaryRate">$0.11/kWh</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total Units:</span>
+                        <span id="summaryUnits">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Usage:</span>
+                        <span id="summaryUsage">Standard commercial</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Effectiveness:</span>
+                        <span id="summaryEffectiveness">20%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Global variables
+var electricRate = 0.11;
+var currentRateType = 'conservative';
+var systems = { threeTon: 0, fiveTon: 0, tenTon: 0 };
+var usageIntensity = 1;
+var effectiveness = 20;
+
+// Consumption ranges [light, moderate, heavy] - kWh/month
+var consumptionRanges = {
+    threeTon: [1200, 2250, 4050],
+    fiveTon: [2000, 3750, 6750],
+    tenTon: [4000, 7500, 13500]
+};
+
+var usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
+
+// Set electric rate
+function setRate(type, rate) {
+    electricRate = rate;
+    currentRateType = type;
+    document.getElementById('electricRate').value = rate.toFixed(2);
+    
+    // Update button states
+    var buttons = document.querySelectorAll('.rate-button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    event.target.classList.add('active');
+    
+    updateResults();
+}
+
+// Update rate from input
+function updateRate() {
+    var input = document.getElementById('electricRate');
+    electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0));
+    currentRateType = 'custom';
+    
+    // Remove active from all buttons
+    var buttons = document.querySelectorAll('.rate-button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    
+    updateResults();
+}
+
+// Change system count
+function changeSystem(type, delta) {
+    systems[type] = Math.max(0, systems[type] + delta);
+    document.getElementById(type).textContent = systems[type];
+    updateResults();
+}
+
+// Update usage intensity
+function updateUsage() {
+    usageIntensity = parseInt(document.getElementById('usageSlider').value);
+    
+    // Update labels
+    var labels = ['light', 'moderate', 'heavy'];
+    for (var i = 0; i < labels.length; i++) {
+        var element = document.getElementById(labels[i]);
+        if (i === usageIntensity) {
+            element.classList.add('active');
+        } else {
+            element.classList.remove('active');
+        }
+    }
+    
+    document.getElementById('usageDesc').textContent = '(' + usageLabels[usageIntensity] + ')';
+    updateResults();
+}
+
+// Update effectiveness
+function updateEffectiveness() {
+    effectiveness = parseInt(document.getElementById('effectivenessSlider').value);
+    
+    document.getElementById('effectivenessValue').textContent = effectiveness + '%';
+    
+    var desc = effectiveness <= 18 ? 'Conservative' : effectiveness >= 25 ? 'Excellent' : 'Average';
+    document.getElementById('effectivenessDesc').textContent = desc;
+    
+    updateResults();
+}
+
+// Calculate savings
+function calculateSavings() {
+    var totalKwh = 
+        systems.threeTon * consumptionRanges.threeTon[usageIntensity] +
+        systems.fiveTon * consumptionRanges.fiveTon[usageIntensity] +
+        systems.tenTon * consumptionRanges.tenTon[usageIntensity];
+    
+    var monthlySavings = totalKwh * (effectiveness / 100) * electricRate;
+    
+    var equipmentCost = 
+        systems.threeTon * 950 +
+        systems.fiveTon * 1250 +
+        systems.tenTon * 1550;
+    
+    var paybackMonths = equipmentCost > 0 && monthlySavings > 0 ? equipmentCost / monthlySavings : 0;
+    
+    return {
+        monthlySavings: monthlySavings,
+        equipmentCost: equipmentCost,
+        paybackMonths: paybackMonths
+    };
+}
+
+// Update results display
+function updateResults() {
+    var results = calculateSavings();
+    
+    // Update results
+    document.getElementById('monthlySavings').textContent = '$' + Math.round(results.monthlySavings);
+    document.getElementById('equipmentCost').textContent = '$' + results.equipmentCost.toLocaleString();
+    
+    if (results.paybackMonths > 0) {
+        document.getElementById('paybackPeriod').textContent = Math.round(results.paybackMonths) + ' months';
+        document.getElementById('paybackYears').textContent = '(' + (results.paybackMonths / 12).toFixed(1) + ' years)';
+    } else {
+        document.getElementById('paybackPeriod').textContent = 'N/A';
+        document.getElementById('paybackYears').textContent = '';
+    }
+    
+    // Update summary
+    document.getElementById('summaryRate').textContent = '$' + electricRate.toFixed(2) + '/kWh';
+    document.getElementById('summaryUnits').textContent = systems.threeTon + systems.fiveTon + systems.tenTon;
+    document.getElementById('summaryUsage').textContent = usageLabels[usageIntensity];
+    document.getElementById('summaryEffectiveness').textContent = effectiveness + '%';
+}
+
+// Initialize on page load
+window.onload = function() {
+    updateResults();
+};
+</script>
+
+</body>
+</html>
