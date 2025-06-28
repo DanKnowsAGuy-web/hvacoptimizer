@@ -355,10 +355,10 @@
                     <h3>1. Electric Rate</h3>
                     
                     <div class="button-group">
-                        <button class="rate-button active" onclick="setRate('conservative', 0.11)">
+                        <button class="rate-button" onclick="setRate('conservative', 0.11)">
                             Conservative<br><small>$0.11/kWh</small>
                         </button>
-                        <button class="rate-button" onclick="setRate('moderate', 0.15)">
+                        <button class="rate-button active" onclick="setRate('moderate', 0.15)">
                             Moderate<br><small>$0.15/kWh</small>
                         </button>
                         <button class="rate-button" onclick="setRate('expensive', 0.20)">
@@ -368,7 +368,7 @@
 
                     <div class="input-row">
                         <span>$</span>
-                        <input type="number" id="electricRate" class="input-field" value="0.11" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
+                        <input type="number" id="electricRate" class="input-field" value="0.15" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
                         <span>per kWh</span>
                     </div>
                     <p class="small-text">Range: $0.08 - $0.35/kWh</p>
@@ -391,7 +391,7 @@
                         <span>5-ton units:</span>
                         <div class="counter-group">
                             <button class="counter-btn" onclick="changeSystem('fiveTon', -1)">−</button>
-                            <span class="counter-value" id="fiveTon">0</span>
+                            <span class="counter-value" id="fiveTon">1</span>
                             <button class="counter-btn" onclick="changeSystem('fiveTon', 1)">+</button>
                         </div>
                     </div>
@@ -471,11 +471,11 @@
                     <h3 style="color: #60a5fa; margin-bottom: 12px;">Configuration Summary</h3>
                     <div class="summary-item">
                         <span class="summary-label">Electric Rate:</span>
-                        <span id="summaryRate">$0.11/kWh</span>
+                        <span id="summaryRate">$0.15/kWh</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Total Units:</span>
-                        <span id="summaryUnits">0</span>
+                        <span id="summaryUnits">1</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Usage:</span>
@@ -492,9 +492,9 @@
 
 <script>
 // Global variables
-var electricRate = 0.11;
-var currentRateType = 'conservative';
-var systems = { threeTon: 0, fiveTon: 0, tenTon: 0 };
+var electricRate = 0.15;
+var currentRateType = 'moderate';
+var systems = { threeTon: 0, fiveTon: 1, tenTon: 0 };
 var usageIntensity = 1;
 var effectiveness = 20;
 
