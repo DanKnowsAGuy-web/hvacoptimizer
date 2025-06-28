@@ -35,7 +35,6 @@
             color: #60a5fa;
             margin-bottom: 8px;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .header p {
@@ -55,24 +54,6 @@
             }
         }
         
-        @media (max-width: 767px) {
-            body {
-                padding: 8px;
-            }
-            .header {
-                margin-bottom: 20px;
-            }
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            .header p {
-                font-size: 0.95rem;
-            }
-            .grid {
-                gap: 16px;
-            }
-        }
-        
         .card {
             background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
             border-radius: 12px;
@@ -80,24 +61,6 @@
             margin-bottom: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(148, 163, 184, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
         
         .card h3 {
@@ -105,33 +68,13 @@
             font-size: 1.25rem;
             margin-bottom: 16px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        @media (max-width: 767px) {
-            .card {
-                padding: 16px;
-                margin-bottom: 12px;
-            }
-            .card h3 {
-                font-size: 1.1rem;
-                margin-bottom: 12px;
-            }
         }
         
         .button-group {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 16px;
-        }
-        
-        @media (min-width: 480px) {
-            .button-group {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
         }
         
         .rate-button {
@@ -144,22 +87,16 @@
             font-size: 0.9rem;
             text-align: center;
             transition: all 0.3s ease;
-            line-height: 1.3;
-            font-weight: 500;
             min-height: 44px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
         .rate-button:hover {
             background: linear-gradient(145deg, #4b5563 0%, #6b7280 100%);
-            transform: translateY(-1px);
         }
         
         .rate-button.active {
             background: linear-gradient(145deg, #2563eb 0%, #3b82f6 100%);
             color: white;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
-            transform: translateY(-1px);
         }
         
         .input-row {
@@ -179,15 +116,6 @@
             width: 80px;
             text-align: center;
             font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            min-height: 44px;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         
         .system-row {
@@ -216,15 +144,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
             font-size: 1.2rem;
             font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
         .counter-btn:hover {
             background: linear-gradient(145deg, #4b5563 0%, #6b7280 100%);
-            transform: translateY(-1px);
         }
         
         .counter-value {
@@ -243,7 +168,6 @@
             outline: none;
             cursor: pointer;
             margin: 16px 0;
-            transition: all 0.3s ease;
         }
         
         .slider::-webkit-slider-thumb {
@@ -253,23 +177,7 @@
             border-radius: 50%;
             background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
             border: 2px solid white;
-            transition: all 0.3s ease;
-        }
-        
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-        
-        .slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
         
         .slider-labels {
@@ -282,7 +190,6 @@
         
         .slider-labels span {
             color: #94a3b8;
-            transition: all 0.3s ease;
         }
         
         .slider-labels span.active {
@@ -306,7 +213,6 @@
             outline: none;
             cursor: pointer;
             margin: 16px 0;
-            transition: all 0.3s ease;
         }
         
         .effectiveness-slider::-webkit-slider-thumb {
@@ -317,22 +223,6 @@
             background: white;
             border: 3px solid #3b82f6;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
-            transition: all 0.3s ease;
-        }
-        
-        .effectiveness-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-        
-        .effectiveness-slider::-moz-range-thumb {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #3b82f6;
-            cursor: pointer;
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
         }
         
         .effectiveness-labels {
@@ -360,13 +250,69 @@
             margin-top: 2px;
         }
         
-        .results-card {
+        .section-divider {
+            margin: 24px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #374151 20%, #6b7280 50%, #374151 80%, transparent 100%);
+        }
+        
+        .section-divider span {
+            background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #60a5fa;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .energy-savings-card {
             background: linear-gradient(145deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
             text-align: center;
         }
         
-        .results-card h3 {
+        .energy-savings-card h3 {
             color: #bfdbfe;
+        }
+        
+        .equipment-protection-card {
+            background: linear-gradient(145deg, #065f46 0%, #047857 50%, #059669 100%);
+            text-align: center;
+        }
+        
+        .equipment-protection-card h3 {
+            color: #d1fae5;
+        }
+        
+        .total-value-card {
+            background: linear-gradient(145deg, #7c2d12 0%, #dc2626 50%, #b91c1c 100%);
+            text-align: center;
+            border: 2px solid #fbbf24;
+        }
+        
+        .total-value-card h3 {
+            color: #fed7aa;
+            font-size: 1.4rem;
+        }
+        
+        .investment-card {
+            background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
+            text-align: center;
+        }
+        
+        .investment-card h3 {
+            color: #cbd5e1;
         }
         
         .result-item {
@@ -374,12 +320,6 @@
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .result-item:hover {
-            transform: translateY(-1px);
         }
         
         .result-label {
@@ -392,7 +332,6 @@
         .result-value {
             font-size: 2rem;
             font-weight: 800;
-            transition: all 0.3s ease;
         }
         
         .result-value.savings {
@@ -425,18 +364,10 @@
             font-size: 0.9rem;
             padding: 6px 0;
             border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
         }
         
         .summary-item:last-child {
             border-bottom: none;
-        }
-        
-        .summary-item:hover {
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 4px;
-            padding-left: 8px;
-            padding-right: 8px;
         }
         
         .summary-label {
@@ -454,32 +385,6 @@
             color: #94a3b8;
             margin-top: 8px;
         }
-        
-        @media (max-width: 767px) {
-            .result-value {
-                font-size: 1.5rem;
-            }
-            .counter-btn {
-                width: 36px;
-                height: 36px;
-            }
-            .slider::-webkit-slider-thumb {
-                width: 20px;
-                height: 20px;
-            }
-            .slider::-moz-range-thumb {
-                width: 20px;
-                height: 20px;
-            }
-            .effectiveness-slider::-webkit-slider-thumb {
-                width: 24px;
-                height: 24px;
-            }
-            .effectiveness-slider::-moz-range-thumb {
-                width: 24px;
-                height: 24px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -494,21 +399,21 @@
                 <div class="card">
                     <h3>⚡ 1. Electric Rate</h3>
                     <div class="button-group">
-                        <button class="rate-button" onclick="setRate('conservative', 0.11)">
+                        <button class="rate-button" onclick="setRate(0.11, this)">
                             Conservative<br><small>$0.11/kWh</small>
                         </button>
-                        <button class="rate-button active" onclick="setRate('moderate', 0.15)">
+                        <button class="rate-button active" onclick="setRate(0.15, this)">
                             Moderate<br><small>$0.15/kWh</small>
                         </button>
-                        <button class="rate-button" onclick="setRate('expensive', 0.20)">
+                        <button class="rate-button" onclick="setRate(0.20, this)">
                             Expensive<br><small>$0.20/kWh</small>
                         </button>
                     </div>
                     <div class="input-row">
                         <span>$</span>
-                        <button class="counter-btn" onclick="changeRate(-0.01)">−</button>
+                        <button class="counter-btn" onclick="adjustRate(-0.01)">−</button>
                         <input type="number" id="electricRate" class="input-field" value="0.15" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
-                        <button class="counter-btn" onclick="changeRate(0.01)">+</button>
+                        <button class="counter-btn" onclick="adjustRate(0.01)">+</button>
                         <span>per kWh</span>
                     </div>
                     <p class="small-text">Range: $0.08 - $0.35/kWh</p>
@@ -574,8 +479,8 @@
             </div>
 
             <div>
-                <div class="card results-card">
-                    <h3>💰 Results</h3>
+                <div class="card energy-savings-card">
+                    <h3>💡 Energy Cost Savings</h3>
                     <div class="result-item">
                         <div class="result-label">Monthly HVAC Energy Savings:</div>
                         <div class="result-value savings" id="monthlySavings">$0</div>
@@ -588,6 +493,40 @@
                         <div class="result-label">Five Year HVAC Energy Savings:</div>
                         <div class="result-value savings" id="fiveYearSavings">$0</div>
                     </div>
+                </div>
+                
+                <div class="section-divider">
+                    <span>PLUS</span>
+                </div>
+                
+                <div class="card equipment-protection-card">
+                    <h3>🛡️ Equipment Value Protection</h3>
+                    <div class="result-item">
+                        <div class="result-label">Money Saved by Extending System Life:</div>
+                        <div class="result-value savings" id="systemLifeSavings">$0</div>
+                        <div class="result-sub" id="systemLifeRange"></div>
+                    </div>
+                </div>
+                
+                <div class="section-divider">
+                    <span>=</span>
+                </div>
+                
+                <div class="card total-value-card">
+                    <h3>💰 Total 5-Year Program Value</h3>
+                    <div class="result-item">
+                        <div class="result-label">Combined Energy + Equipment Savings:</div>
+                        <div class="result-value savings" id="totalProgramValue">$0</div>
+                        <div class="result-sub">Your complete return on investment</div>
+                    </div>
+                </div>
+                
+                <div class="section-divider">
+                    <span>📊</span>
+                </div>
+                
+                <div class="card investment-card">
+                    <h3>📊 Investment & Payback</h3>
                     <div class="result-item">
                         <div class="result-label">Estimated Total Program Investment:</div>
                         <div class="result-value investment" id="equipmentCost">$0</div>
@@ -622,165 +561,188 @@
         </div>
     </div>
 
-<script>
-var electricRate = 0.15;
-var currentRateType = 'moderate';
-var systems = { threeTon: 0, fiveTon: 1, tenTon: 0 };
-var usageIntensity = 1;
-var effectiveness = 20;
+    <script>
+        // Global state
+        let state = {
+            electricRate: 0.15,
+            systems: { threeTon: 0, fiveTon: 1, tenTon: 0 },
+            usageIntensity: 1,
+            effectiveness: 20
+        };
 
-var consumptionRanges = {
-    threeTon: [1200, 2250, 4050],
-    fiveTon: [2000, 3750, 6750],
-    tenTon: [4000, 7500, 13500]
-};
+        // Data tables
+        const consumptionRanges = {
+            threeTon: [1200, 2250, 4050],
+            fiveTon: [2000, 3750, 6750],
+            tenTon: [4000, 7500, 13500]
+        };
 
-var usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
+        const systemLifeSavingsRanges = {
+            threeTon: { min: 2500, max: 4000 },
+            fiveTon: { min: 4000, max: 6500 },
+            tenTon: { min: 6500, max: 10000 }
+        };
 
-function changeRate(delta) {
-    electricRate = Math.max(0.08, Math.min(0.35, electricRate + delta));
-    document.getElementById('electricRate').value = electricRate.toFixed(2);
-    currentRateType = 'custom';
-    
-    var buttons = document.querySelectorAll('.rate-button');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove('active');
-    }
-    
-    updateResults();
-}
+        const usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
 
-function setRate(type, rate) {
-    electricRate = rate;
-    currentRateType = type;
-    document.getElementById('electricRate').value = rate.toFixed(2);
-    
-    var buttons = document.querySelectorAll('.rate-button');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove('active');
-    }
-    event.target.classList.add('active');
-    
-    updateResults();
-}
-
-function updateRate() {
-    var input = document.getElementById('electricRate');
-    electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0));
-    currentRateType = 'custom';
-    
-    var buttons = document.querySelectorAll('.rate-button');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove('active');
-    }
-    
-    updateResults();
-}
-
-function changeSystem(type, delta) {
-    systems[type] = Math.max(0, systems[type] + delta);
-    document.getElementById(type).textContent = systems[type];
-    updateResults();
-}
-
-function updateUsage() {
-    usageIntensity = parseInt(document.getElementById('usageSlider').value);
-    
-    var labels = ['light', 'moderate', 'heavy'];
-    for (var i = 0; i < labels.length; i++) {
-        var element = document.getElementById(labels[i]);
-        if (i === usageIntensity) {
-            element.classList.add('active');
-        } else {
-            element.classList.remove('active');
+        // Functions
+        function setRate(rate, button) {
+            state.electricRate = rate;
+            document.getElementById('electricRate').value = rate.toFixed(2);
+            
+            // Update button states
+            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            updateResults();
         }
-    }
-    
-    document.getElementById('usageDesc').textContent = '(' + usageLabels[usageIntensity] + ')';
-    updateResults();
-}
 
-function updateEffectiveness() {
-    effectiveness = parseInt(document.getElementById('effectivenessSlider').value);
-    
-    document.getElementById('effectivenessValue').textContent = effectiveness + '%';
-    
-    var desc = effectiveness <= 18 ? 'Conservative' : effectiveness >= 25 ? 'Excellent' : 'Average';
-    document.getElementById('effectivenessDesc').textContent = desc;
-    
-    updateResults();
-}
+        function adjustRate(delta) {
+            state.electricRate = Math.max(0.08, Math.min(0.35, state.electricRate + delta));
+            document.getElementById('electricRate').value = state.electricRate.toFixed(2);
+            
+            // Clear active rate buttons
+            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
+            
+            updateResults();
+        }
 
-function calculateSavings() {
-    var consumptions = {
-        threeTon: consumptionRanges.threeTon[usageIntensity],
-        fiveTon: consumptionRanges.fiveTon[usageIntensity],
-        tenTon: consumptionRanges.tenTon[usageIntensity]
-    };
-    
-    // Calculate monthly savings per unit for each type
-    var monthlySavingsPerUnit = {
-        threeTon: consumptions.threeTon * (effectiveness / 100) * electricRate,
-        fiveTon: consumptions.fiveTon * (effectiveness / 100) * electricRate,
-        tenTon: consumptions.tenTon * (effectiveness / 100) * electricRate
-    };
-    
-    // Calculate dynamic pricing: max of $1000 or 11-month payback price
-    var dynamicPrices = {
-        threeTon: Math.max(1000, monthlySavingsPerUnit.threeTon * 11),
-        fiveTon: Math.max(1000, monthlySavingsPerUnit.fiveTon * 11),
-        tenTon: Math.max(1000, monthlySavingsPerUnit.tenTon * 11)
-    };
-    
-    // Calculate total monthly savings and equipment cost
-    var totalMonthlySavings = 
-        systems.threeTon * monthlySavingsPerUnit.threeTon +
-        systems.fiveTon * monthlySavingsPerUnit.fiveTon +
-        systems.tenTon * monthlySavingsPerUnit.tenTon;
-    
-    var equipmentCost = 
-        systems.threeTon * dynamicPrices.threeTon +
-        systems.fiveTon * dynamicPrices.fiveTon +
-        systems.tenTon * dynamicPrices.tenTon;
-    
-    var paybackMonths = equipmentCost > 0 && totalMonthlySavings > 0 ? equipmentCost / totalMonthlySavings : 0;
-    
-    return {
-        monthlySavings: totalMonthlySavings,
-        equipmentCost: equipmentCost,
-        paybackMonths: paybackMonths,
-        dynamicPrices: dynamicPrices
-    };
-}
+        function updateRate() {
+            const input = document.getElementById('electricRate');
+            state.electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0));
+            
+            // Clear active rate buttons
+            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
+            
+            updateResults();
+        }
 
-function updateResults() {
-    var results = calculateSavings();
-    var annualSavings = results.monthlySavings * 12;
-    var fiveYearSavings = annualSavings * 5;
-    
-    document.getElementById('monthlySavings').textContent = '$' + Math.round(results.monthlySavings);
-    document.getElementById('annualSavings').textContent = '$' + Math.round(annualSavings).toLocaleString();
-    document.getElementById('fiveYearSavings').textContent = '$' + Math.round(fiveYearSavings).toLocaleString();
-    document.getElementById('equipmentCost').textContent = '$' + results.equipmentCost.toLocaleString();
-    
-    if (results.paybackMonths > 0) {
-        document.getElementById('paybackPeriod').textContent = Math.round(results.paybackMonths) + ' months';
-        document.getElementById('paybackYears').textContent = '(' + (results.paybackMonths / 12).toFixed(1) + ' years)';
-    } else {
-        document.getElementById('paybackPeriod').textContent = 'N/A';
-        document.getElementById('paybackYears').textContent = '';
-    }
-    
-    document.getElementById('summaryRate').textContent = '$' + electricRate.toFixed(2) + '/kWh';
-    document.getElementById('summaryUnits').textContent = systems.threeTon + systems.fiveTon + systems.tenTon;
-    document.getElementById('summaryUsage').textContent = usageLabels[usageIntensity];
-    document.getElementById('summaryEffectiveness').textContent = effectiveness + '%';
-}
+        function changeSystem(type, delta) {
+            state.systems[type] = Math.max(0, state.systems[type] + delta);
+            document.getElementById(type).textContent = state.systems[type];
+            updateResults();
+        }
 
-window.onload = function() {
-    updateResults();
-};
-</script>
+        function updateUsage() {
+            state.usageIntensity = parseInt(document.getElementById('usageSlider').value);
+            
+            // Update labels
+            const labels = ['light', 'moderate', 'heavy'];
+            labels.forEach((label, index) => {
+                const element = document.getElementById(label);
+                if (index === state.usageIntensity) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+            
+            document.getElementById('usageDesc').textContent = '(' + usageLabels[state.usageIntensity] + ')';
+            updateResults();
+        }
 
+        function updateEffectiveness() {
+            state.effectiveness = parseInt(document.getElementById('effectivenessSlider').value);
+            
+            document.getElementById('effectivenessValue').textContent = state.effectiveness + '%';
+            
+            const desc = state.effectiveness <= 18 ? 'Conservative' : state.effectiveness >= 25 ? 'Excellent' : 'Average';
+            document.getElementById('effectivenessDesc').textContent = desc;
+            
+            updateResults();
+        }
+
+        function calculateSystemLifeSavings() {
+            let totalMinSavings = 0;
+            let totalMaxSavings = 0;
+            
+            Object.keys(state.systems).forEach(unitType => {
+                const unitCount = state.systems[unitType];
+                if (unitCount > 0) {
+                    const range = systemLifeSavingsRanges[unitType];
+                    totalMinSavings += range.min * unitCount;
+                    totalMaxSavings += range.max * unitCount;
+                }
+            });
+            
+            return { min: totalMinSavings, max: totalMaxSavings };
+        }
+
+        function calculateSavings() {
+            let totalMonthlySavings = 0;
+            let totalEquipmentCost = 0;
+            
+            Object.keys(state.systems).forEach(unitType => {
+                const unitCount = state.systems[unitType];
+                if (unitCount > 0) {
+                    const unitKwh = consumptionRanges[unitType][state.usageIntensity];
+                    const unitMonthlySavings = unitKwh * (state.effectiveness / 100) * state.electricRate;
+                    
+                    const elevenMonthPrice = unitMonthlySavings * 11;
+                    const unitPrice = Math.max(1000, elevenMonthPrice);
+                    
+                    totalMonthlySavings += unitMonthlySavings * unitCount;
+                    totalEquipmentCost += unitPrice * unitCount;
+                }
+            });
+            
+            const paybackMonths = totalEquipmentCost > 0 && totalMonthlySavings > 0 ? totalEquipmentCost / totalMonthlySavings : 0;
+            
+            return {
+                monthlySavings: totalMonthlySavings,
+                equipmentCost: totalEquipmentCost,
+                paybackMonths: paybackMonths
+            };
+        }
+
+        function updateResults() {
+            const results = calculateSavings();
+            const systemLifeResults = calculateSystemLifeSavings();
+            const monthlySavings = results.monthlySavings;
+            const annualSavings = results.monthlySavings * 12;
+            const fiveYearSavings = annualSavings * 5;
+            
+            // Update energy savings
+            document.getElementById('monthlySavings').textContent = '$' + Math.round(monthlySavings).toLocaleString();
+            document.getElementById('annualSavings').textContent = '$' + Math.round(annualSavings).toLocaleString();
+            document.getElementById('fiveYearSavings').textContent = '$' + Math.round(fiveYearSavings).toLocaleString();
+            
+            // Update equipment protection
+            if (systemLifeResults.min > 0) {
+                const avgSavings = (systemLifeResults.min + systemLifeResults.max) / 2;
+                document.getElementById('systemLifeSavings').textContent = '$' + Math.round(avgSavings).toLocaleString();
+                document.getElementById('systemLifeRange').textContent = 
+                    '($' + systemLifeResults.min.toLocaleString() + ' - $' + systemLifeResults.max.toLocaleString() + '+ range)';
+            } else {
+                document.getElementById('systemLifeSavings').textContent = '$0';
+                document.getElementById('systemLifeRange').textContent = '';
+            }
+            
+            // Calculate total program value
+            const avgEquipmentSavings = systemLifeResults.min > 0 ? (systemLifeResults.min + systemLifeResults.max) / 2 : 0;
+            const totalProgramValue = fiveYearSavings + avgEquipmentSavings;
+            document.getElementById('totalProgramValue').textContent = '$' + Math.round(totalProgramValue).toLocaleString();
+            
+            // Update investment
+            document.getElementById('equipmentCost').textContent = '$' + results.equipmentCost.toLocaleString();
+            
+            if (results.paybackMonths > 0) {
+                document.getElementById('paybackPeriod').textContent = Math.round(results.paybackMonths) + ' months';
+                document.getElementById('paybackYears').textContent = '(' + (results.paybackMonths / 12).toFixed(1) + ' years)';
+            } else {
+                document.getElementById('paybackPeriod').textContent = 'N/A';
+                document.getElementById('paybackYears').textContent = '';
+            }
+            
+            // Update summary
+            document.getElementById('summaryRate').textContent = '$' + state.electricRate.toFixed(2) + '/kWh';
+            document.getElementById('summaryUnits').textContent = state.systems.threeTon + state.systems.fiveTon + state.systems.tenTon;
+            document.getElementById('summaryUsage').textContent = usageLabels[state.usageIntensity];
+            document.getElementById('summaryEffectiveness').textContent = state.effectiveness + '%';
+        }
+
+        // Initialize on load
+        window.addEventListener('load', updateResults);
+    </script>
 </body>
 </html>
