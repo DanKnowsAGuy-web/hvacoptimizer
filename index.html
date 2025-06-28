@@ -10,566 +10,762 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
-            padding: 16px;
-            line-height: 1.4;
             min-height: 100vh;
+            padding: 20px;
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
         }
-        
+
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
         }
-        
+
         .header h1 {
             font-size: 2.5rem;
-            color: #60a5fa;
-            margin-bottom: 8px;
-            font-weight: 700;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
         .header p {
-            color: #cbd5e1;
             font-size: 1.1rem;
+            opacity: 0.8;
         }
-        
-        .grid {
-            display: grid;
-            gap: 24px;
-            grid-template-columns: 1fr;
-        }
-        
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
         .card {
-            background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-        
-        .card h3 {
-            color: #60a5fa;
-            font-size: 1.25rem;
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-        
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .rate-button {
-            padding: 16px 12px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(145deg, #374151 0%, #4b5563 100%);
-            color: #e5e7eb;
-            cursor: pointer;
-            font-size: 0.9rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            min-height: 44px;
-        }
-        
-        .rate-button:hover {
-            background: linear-gradient(145deg, #4b5563 0%, #6b7280 100%);
-        }
-        
-        .rate-button.active {
-            background: linear-gradient(145deg, #2563eb 0%, #3b82f6 100%);
-            color: white;
-        }
-        
-        .input-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-        
-        .input-field {
-            background: linear-gradient(145deg, #374151 0%, #4b5563 100%);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            padding: 12px;
-            border-radius: 6px;
-            color: white;
-            width: 80px;
-            text-align: center;
-            font-size: 0.95rem;
-        }
-        
-        .system-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        .counter-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .counter-btn {
-            background: linear-gradient(145deg, #374151 0%, #4b5563 100%);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .counter-btn:hover {
-            background: linear-gradient(145deg, #4b5563 0%, #6b7280 100%);
-        }
-        
-        .counter-value {
-            min-width: 36px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #60a5fa;
-        }
-        
-        .slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
-            outline: none;
-            cursor: pointer;
-            margin: 16px 0;
-        }
-        
-        .slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
-            cursor: pointer;
-            border: 2px solid white;
-        }
-        
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-        
-        .slider-labels span {
-            color: #94a3b8;
-        }
-        
-        .slider-labels span.active {
-            color: #60a5fa;
-            font-weight: 700;
-        }
-        
-        .slider-description {
-            text-align: center;
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-        
-        .effectiveness-slider {
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
-            outline: none;
-            cursor: pointer;
-            margin: 16px 0;
-        }
-        
-        .effectiveness-slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #3b82f6;
-            cursor: pointer;
-        }
-        
-        .effectiveness-labels {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            font-size: 0.85rem;
-        }
-        
-        .effectiveness-center {
-            text-align: center;
-        }
-        
-        .effectiveness-value {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #60a5fa;
-        }
-        
-        .effectiveness-desc {
-            font-size: 0.75rem;
-            color: #93c5fd;
-            font-weight: 600;
-            margin-top: 2px;
-        }
-        
-        .section-divider {
-            margin: 24px 0;
-            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid transparent;
+            background-clip: padding-box;
             position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .section-divider::before {
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.3));
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rate-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .rate-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #374151;
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .rate-btn:hover::before {
+            left: 100%;
+        }
+
+        .rate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: #6366f1;
+        }
+
+        .rate-btn.active {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .manual-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .manual-input label {
+            font-weight: 500;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #374151;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .adjust-btn, .counter-btn {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adjust-btn::before, .counter-btn::before {
             content: '';
             position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, #374151 20%, #6b7280 50%, #374151 80%, transparent 100%);
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
         }
-        
-        .section-divider span {
-            background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #60a5fa;
+
+        .adjust-btn:hover::before, .counter-btn::before:hover {
+            width: 80px;
+            height: 80px;
+        }
+
+        .adjust-btn:hover, .counter-btn:hover {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .adjust-btn:active, .counter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .counter-btn {
+            width: 35px;
+            height: 35px;
+            font-size: 1.1rem;
+        }
+
+        .rate-input {
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: center;
+            width: 80px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .rate-input:focus {
+            outline: none;
+        }
+
+        .system-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .system-label {
+            font-weight: 500;
+            min-width: 100px;
+        }
+
+        .system-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .counter-btn {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            z-index: 1;
+            overflow: hidden;
         }
-        
-        .energy-savings-card {
-            background: linear-gradient(145deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
+
+        .counter-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .counter-btn:hover::before {
+            width: 70px;
+            height: 70px;
+        }
+
+        .counter-btn:hover {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .counter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .counter-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-width: 30px;
             text-align: center;
         }
-        
-        .energy-savings-card h3 {
-            color: #bfdbfe;
+
+        .slider-container {
+            margin: 1rem 0;
         }
-        
-        .equipment-protection-card {
-            background: linear-gradient(145deg, #065f46 0%, #047857 50%, #059669 100%);
-            text-align: center;
+
+        .slider {
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(90deg, #374151 0%, #4b5563 50%, #374151 100%);
+            border-radius: 6px;
+            outline: none;
+            -webkit-appearance: none;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
-        
-        .equipment-protection-card h3 {
-            color: #d1fae5;
+
+        .slider:hover {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 12px rgba(99, 102, 241, 0.3);
         }
-        
-        .total-value-card {
-            background: linear-gradient(145deg, #7c2d12 0%, #dc2626 50%, #b91c1c 100%);
-            text-align: center;
-            border: 2px solid #fbbf24;
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
         }
-        
-        .total-value-card h3 {
-            color: #fed7aa;
-            font-size: 1.4rem;
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6), 0 0 20px rgba(99, 102, 241, 0.4);
         }
-        
-        .investment-card {
-            background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
-            text-align: center;
+
+        .slider::-webkit-slider-thumb:active {
+            transform: scale(1.1);
         }
-        
-        .investment-card h3 {
-            color: #cbd5e1;
+
+        .slider::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .result-item {
-            background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 16px;
+
+        .slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
         }
-        
-        .result-label {
-            color: #cbd5e1;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        .result-value {
-            font-size: 2rem;
-            font-weight: 800;
-        }
-        
-        .result-value.savings {
-            color: #10b981;
-        }
-        
-        .result-value.investment {
-            color: #3b82f6;
-        }
-        
-        .result-value.payback {
-            color: #f59e0b;
-        }
-        
-        .result-sub {
-            font-size: 0.75rem;
-            color: #9ca3af;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        
-        .summary-card {
-            background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
-        }
-        
-        .summary-item {
+
+        .slider-labels {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-top: 0.5rem;
             font-size: 0.9rem;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            opacity: 0.8;
         }
-        
-        .summary-item:last-child {
-            border-bottom: none;
+
+        .slider-description {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-style: italic;
+            opacity: 0.7;
         }
-        
-        .summary-label {
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        
-        .summary-value {
-            color: #e2e8f0;
+
+        .effectiveness-display {
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 1.1rem;
             font-weight: 600;
         }
-        
-        .small-text {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-top: 8px;
+
+        /* Result Cards */
+        .result-card {
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .result-card:hover::before {
+            left: 100%;
+        }
+
+        .result-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .energy-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+        }
+
+        .energy-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(29, 78, 216, 0.3);
+        }
+
+        .equipment-card {
+            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+        }
+
+        .equipment-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(5, 150, 105, 0.3);
+        }
+
+        .total-card {
+            background: linear-gradient(135deg, #7c2d12 0%, #b91c1c 100%);
+            border: 2px solid #fbbf24;
+            position: relative;
+        }
+
+        .total-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            padding: 2px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b, #fbbf24);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .total-card:hover::after {
+            opacity: 1;
+        }
+
+        .total-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+
+        .tax-card {
+            background: linear-gradient(135deg, #581c87 0%, #8b5cf6 100%);
+        }
+
+        .tax-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .investment-card, .summary-card {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+        }
+
+        .investment-card:hover, .summary-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(75, 85, 99, 0.2);
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-box:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .result-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .result-box:hover .result-amount {
+            transform: scale(1.05);
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .result-subtext {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .cta-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-card:hover::before {
+            left: 100%;
+        }
+
+        .cta-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            font-weight: 500;
+        }
+
+        .summary-value {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .rate-buttons {
+                flex-direction: column;
+            }
+
+            .rate-btn {
+                flex: none;
+            }
+
+            .system-row {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .system-controls {
+                align-self: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
             <h1>⚡ Your HVAC Savings Impact</h1>
-            <p>Savings for your single compressor HVAC</p>
+            <p>Calculate your potential energy savings and equipment protection value</p>
         </div>
 
-        <div class="grid">
-            <div>
-                <div class="card">
-                    <h3>⚡ 1. Electric Rate</h3>
-                    <div class="button-group">
-                        <button class="rate-button" onclick="setRate(0.11, this)">
-                            Conservative<br><small>$0.11/kWh</small>
-                        </button>
-                        <button class="rate-button active" onclick="setRate(0.15, this)">
-                            Moderate<br><small>$0.15/kWh</small>
-                        </button>
-                        <button class="rate-button" onclick="setRate(0.20, this)">
-                            Expensive<br><small>$0.20/kWh</small>
-                        </button>
-                    </div>
-                    <div class="input-row">
-                        <span>$</span>
-                        <button class="counter-btn" onclick="adjustRate(-0.01)">−</button>
-                        <input type="number" id="electricRate" class="input-field" value="0.15" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
-                        <button class="counter-btn" onclick="adjustRate(0.01)">+</button>
-                        <span>per kWh</span>
-                    </div>
-                    <p class="small-text">Range: $0.08 - $0.35/kWh</p>
+        <!-- Input Cards -->
+        <div class="card">
+            <div class="card-title">⚡ 1. Electric Rate</div>
+            <div class="rate-buttons">
+                <button class="rate-btn" onclick="setRate(0.11, this)">Conservative<br>$0.11/kWh</button>
+                <button class="rate-btn active" onclick="setRate(0.15, this)">Moderate<br>$0.15/kWh</button>
+                <button class="rate-btn" onclick="setRate(0.20, this)">Expensive<br>$0.20/kWh</button>
+            </div>
+            <div class="manual-input">
+                <label>Manual Rate:</label>
+                <div class="input-group">
+                    <button class="adjust-btn" onclick="adjustRate(-0.01)">−</button>
+                    <input type="number" id="rateInput" class="rate-input" value="0.15" min="0.08" max="0.35" step="0.01" onchange="updateRate()">
+                    <button class="adjust-btn" onclick="adjustRate(0.01)">+</button>
                 </div>
+                <span>/kWh</span>
+            </div>
+        </div>
 
-                <div class="card">
-                    <h3>🏢 2. HVAC Systems</h3>
-                    <div class="system-row">
-                        <span>3-ton units:</span>
-                        <div class="counter-group">
-                            <button class="counter-btn" onclick="changeSystem('threeTon', -1)">−</button>
-                            <span class="counter-value" id="threeTon">0</span>
-                            <button class="counter-btn" onclick="changeSystem('threeTon', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="system-row">
-                        <span>5-ton units:</span>
-                        <div class="counter-group">
-                            <button class="counter-btn" onclick="changeSystem('fiveTon', -1)">−</button>
-                            <span class="counter-value" id="fiveTon">1</span>
-                            <button class="counter-btn" onclick="changeSystem('fiveTon', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="system-row">
-                        <span>10-ton units:</span>
-                        <div class="counter-group">
-                            <button class="counter-btn" onclick="changeSystem('tenTon', -1)">−</button>
-                            <span class="counter-value" id="tenTon">0</span>
-                            <button class="counter-btn" onclick="changeSystem('tenTon', 1)">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>📊 3. Usage Intensity</h3>
-                    <input type="range" id="usageSlider" class="slider" min="0" max="2" value="1" oninput="updateUsage()">
-                    <div class="slider-labels">
-                        <span id="light">Light</span>
-                        <span id="moderate" class="active">Moderate</span>
-                        <span id="heavy">Heavy</span>
-                    </div>
-                    <div class="slider-description" id="usageDesc">(Standard commercial)</div>
-                </div>
-
-                <div class="card">
-                    <h3>🎯 4. Savings from HVAC Optimizer</h3>
-                    <input type="range" id="effectivenessSlider" class="effectiveness-slider" min="15" max="30" value="20" oninput="updateEffectiveness()">
-                    <div class="effectiveness-labels">
-                        <div style="text-align: center;">
-                            <div style="color: #9ca3af;">Conservative</div>
-                            <div style="font-size: 0.65rem; color: #6b7280;">15%</div>
-                        </div>
-                        <div class="effectiveness-center">
-                            <div class="effectiveness-value" id="effectivenessValue">20%</div>
-                            <div class="effectiveness-desc" id="effectivenessDesc">Average</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="color: #9ca3af;">Excellent</div>
-                            <div style="font-size: 0.65rem; color: #6b7280;">30%</div>
-                        </div>
-                    </div>
+        <div class="card">
+            <div class="card-title">🏢 2. HVAC Systems</div>
+            <div class="system-row">
+                <span class="system-label">3-ton units:</span>
+                <div class="system-controls">
+                    <button class="counter-btn" onclick="changeSystem('threeTon', -1)">−</button>
+                    <span class="counter-display" id="threeTonCount">0</span>
+                    <button class="counter-btn" onclick="changeSystem('threeTon', 1)">+</button>
                 </div>
             </div>
+            <div class="system-row">
+                <span class="system-label">5-ton units:</span>
+                <div class="system-controls">
+                    <button class="counter-btn" onclick="changeSystem('fiveTon', -1)">−</button>
+                    <span class="counter-display" id="fiveTonCount">1</span>
+                    <button class="counter-btn" onclick="changeSystem('fiveTon', 1)">+</button>
+                </div>
+            </div>
+            <div class="system-row">
+                <span class="system-label">10-ton units:</span>
+                <div class="system-controls">
+                    <button class="counter-btn" onclick="changeSystem('tenTon', -1)">−</button>
+                    <span class="counter-display" id="tenTonCount">0</span>
+                    <button class="counter-btn" onclick="changeSystem('tenTon', 1)">+</button>
+                </div>
+            </div>
+        </div>
 
-            <div>
-                <div class="card energy-savings-card">
-                    <h3>💡 Energy Cost Savings</h3>
-                    <div class="result-item">
-                        <div class="result-label">Monthly HVAC Energy Savings:</div>
-                        <div class="result-value savings" id="monthlySavings">$0</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-label">Annual HVAC Energy Savings:</div>
-                        <div class="result-value savings" id="annualSavings">$0</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-label">Five Year HVAC Energy Savings:</div>
-                        <div class="result-value savings" id="fiveYearSavings">$0</div>
-                    </div>
+        <div class="card">
+            <div class="card-title">📊 3. Usage Intensity</div>
+            <div class="slider-container">
+                <input type="range" id="usageSlider" class="slider" min="0" max="2" value="1" step="1" onchange="updateUsage()">
+                <div class="slider-labels">
+                    <span>Light</span>
+                    <span>Moderate</span>
+                    <span>Heavy</span>
                 </div>
-                
-                <div class="section-divider">
-                    <span>PLUS</span>
+                <div class="slider-description" id="usageDescription">Standard commercial</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🎯 4. Savings from HVAC Optimizer</div>
+            <div class="slider-container">
+                <input type="range" id="effectivenessSlider" class="slider" min="15" max="30" value="20" step="1" onchange="updateEffectiveness()">
+                <div class="slider-labels">
+                    <span>Conservative (15%)</span>
+                    <span>Excellent (30%)</span>
                 </div>
-                
-                <div class="card equipment-protection-card">
-                    <h3>🛡️ Equipment Value Protection</h3>
-                    <div class="result-item">
-                        <div class="result-label">Money Saved by Extending System Life:</div>
-                        <div class="result-value savings" id="systemLifeSavings">$0</div>
-                        <div class="result-sub" id="systemLifeRange"></div>
-                    </div>
-                </div>
-                
-                <div class="section-divider">
-                    <span>=</span>
-                </div>
-                
-                <div class="card total-value-card">
-                    <h3>💰 Total 5-Year Program Value</h3>
-                    <div class="result-item">
-                        <div class="result-label">Combined Energy + Equipment Savings:</div>
-                        <div class="result-value savings" id="totalProgramValue">$0</div>
-                        <div class="result-sub">Your complete return on investment</div>
-                    </div>
-                </div>
-                
-                <div class="section-divider">
-                    <span>📊</span>
-                </div>
-                
-                <div class="card investment-card">
-                    <h3>📊 Investment & Payback</h3>
-                    <div class="result-item">
-                        <div class="result-label">Estimated Total Program Investment:</div>
-                        <div class="result-value investment" id="equipmentCost">$0</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-label">Payback Period:</div>
-                        <div class="result-value payback" id="paybackPeriod">N/A</div>
-                        <div class="result-sub" id="paybackYears"></div>
-                    </div>
-                </div>
-                
-                <div class="card summary-card">
-                    <h3>📋 Configuration Summary</h3>
-                    <div class="summary-item">
-                        <span class="summary-label">Electric Rate:</span>
-                        <span class="summary-value" id="summaryRate">$0.15/kWh</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Total Units:</span>
-                        <span class="summary-value" id="summaryUnits">1</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Usage:</span>
-                        <span class="summary-value" id="summaryUsage">Standard commercial</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Effectiveness:</span>
-                        <span class="summary-value" id="summaryEffectiveness">20%</span>
-                    </div>
-                </div>
+                <div class="effectiveness-display" id="effectivenessDisplay">Average (20%)</div>
+            </div>
+        </div>
+
+        <!-- Result Cards -->
+        <div class="result-card energy-card">
+            <div class="card-title">💡 Energy Cost Savings</div>
+            <div class="result-box">
+                <div class="result-amount" id="annualSavings">$0</div>
+                <div class="result-label">Annual HVAC Energy Savings</div>
+            </div>
+            <div class="result-box">
+                <div class="result-amount" id="fiveYearSavings">$0</div>
+                <div class="result-label">Five Year HVAC Energy Savings</div>
+            </div>
+        </div>
+
+        <div class="result-card equipment-card">
+            <div class="card-title">🛡️ Equipment Value Protection</div>
+            <div class="result-box">
+                <div class="result-amount" id="equipmentSavings">$0</div>
+                <div class="result-label">Money Saved by Extending System Life</div>
+                <div class="result-subtext" id="equipmentRange">($0 - $0+ range)</div>
+            </div>
+        </div>
+
+        <div class="result-card total-card">
+            <div class="card-title">💰 Total 5-Year Program Value</div>
+            <div class="result-box">
+                <div class="result-amount" id="totalValue">$0</div>
+                <div class="result-label">Combined Energy + Equipment Savings</div>
+                <div class="result-subtext">Your complete return on investment</div>
+            </div>
+        </div>
+
+        <div class="result-card tax-card">
+            <div class="card-title">🏛️ Potential Federal Tax Benefits</div>
+            <div class="result-box">
+                <div class="result-amount" id="taxBenefit">$0</div>
+                <div class="result-label">Bonus: Your project may qualify for Section 179D federal tax deductions worth:</div>
+                <div class="result-subtext">Based on 25% energy reduction. <span id="squareFootage">0</span> square feet.</div>
+            </div>
+            <div class="cta-card">
+                <div>📅 Schedule a free 15-minute assessment to check qualifications</div>
+            </div>
+        </div>
+
+        <div class="result-card investment-card">
+            <div class="card-title">📊 Investment & Payback</div>
+            <div class="result-box">
+                <div class="result-amount" id="totalInvestment">$0</div>
+                <div class="result-label">Estimated Total Program Investment</div>
+            </div>
+            <div class="result-box">
+                <div class="result-amount" id="paybackPeriod">0 months</div>
+                <div class="result-label">Payback Period (On Energy Savings Alone)</div>
+            </div>
+        </div>
+
+        <div class="result-card summary-card">
+            <div class="card-title">📋 Configuration Summary</div>
+            <div class="summary-row">
+                <span class="summary-label">Electric Rate:</span>
+                <span class="summary-value" id="summaryRate">$0.15/kWh</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Total Units:</span>
+                <span class="summary-value" id="summaryUnits">1</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Usage:</span>
+                <span class="summary-value" id="summaryUsage">Standard commercial</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Monthly kWh Consumption:</span>
+                <span class="summary-value" id="summaryConsumption">3,750 kWh</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Effectiveness:</span>
+                <span class="summary-value" id="summaryEffectiveness">20%</span>
             </div>
         </div>
     </div>
 
     <script>
-        // Global state
-        let state = {
-            electricRate: 0.15,
-            systems: { threeTon: 0, fiveTon: 1, tenTon: 0 },
-            usageIntensity: 1,
-            effectiveness: 20
-        };
-
         // Data tables
         const consumptionRanges = {
             threeTon: [1200, 2250, 4050],
@@ -583,166 +779,196 @@
             tenTon: { min: 6500, max: 10000 }
         };
 
+        const squareFootagePerUnit = {
+            threeTon: 1500,
+            fiveTon: 2500,
+            tenTon: 5000
+        };
+
         const usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
 
-        // Functions
+        // State
+        let state = {
+            electricRate: 0.15,
+            systems: {
+                threeTon: 0,
+                fiveTon: 1,
+                tenTon: 0
+            },
+            usageIntensity: 1,
+            effectiveness: 20
+        };
+
+        // Electric Rate Functions
         function setRate(rate, button) {
             state.electricRate = rate;
-            document.getElementById('electricRate').value = rate.toFixed(2);
+            document.getElementById('rateInput').value = rate.toFixed(2);
             
             // Update button states
-            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.rate-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
             updateResults();
         }
 
         function adjustRate(delta) {
-            state.electricRate = Math.max(0.08, Math.min(0.35, state.electricRate + delta));
-            document.getElementById('electricRate').value = state.electricRate.toFixed(2);
-            
-            // Clear active rate buttons
-            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
-            
-            updateResults();
+            const input = document.getElementById('rateInput');
+            const newRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) + delta));
+            input.value = newRate.toFixed(2);
+            updateRate();
         }
 
         function updateRate() {
-            const input = document.getElementById('electricRate');
-            state.electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0));
+            const input = document.getElementById('rateInput');
+            state.electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0.15));
+            input.value = state.electricRate.toFixed(2);
             
-            // Clear active rate buttons
-            document.querySelectorAll('.rate-button').forEach(btn => btn.classList.remove('active'));
+            // Clear active button states for manual input
+            document.querySelectorAll('.rate-btn').forEach(btn => btn.classList.remove('active'));
             
             updateResults();
         }
 
+        // HVAC Systems Functions
         function changeSystem(type, delta) {
             state.systems[type] = Math.max(0, state.systems[type] + delta);
-            document.getElementById(type).textContent = state.systems[type];
+            document.getElementById(type + 'Count').textContent = state.systems[type];
             updateResults();
         }
 
+        // Usage Functions
         function updateUsage() {
-            state.usageIntensity = parseInt(document.getElementById('usageSlider').value);
-            
-            // Update labels
-            const labels = ['light', 'moderate', 'heavy'];
-            labels.forEach((label, index) => {
-                const element = document.getElementById(label);
-                if (index === state.usageIntensity) {
-                    element.classList.add('active');
-                } else {
-                    element.classList.remove('active');
-                }
-            });
-            
-            document.getElementById('usageDesc').textContent = '(' + usageLabels[state.usageIntensity] + ')';
+            const slider = document.getElementById('usageSlider');
+            state.usageIntensity = parseInt(slider.value);
+            document.getElementById('usageDescription').textContent = usageLabels[state.usageIntensity];
             updateResults();
         }
 
+        // Effectiveness Functions
         function updateEffectiveness() {
-            state.effectiveness = parseInt(document.getElementById('effectivenessSlider').value);
+            const slider = document.getElementById('effectivenessSlider');
+            state.effectiveness = parseInt(slider.value);
             
-            document.getElementById('effectivenessValue').textContent = state.effectiveness + '%';
+            let description = 'Average';
+            if (state.effectiveness <= 17) description = 'Conservative';
+            else if (state.effectiveness >= 27) description = 'Excellent';
             
-            const desc = state.effectiveness <= 18 ? 'Conservative' : state.effectiveness >= 25 ? 'Excellent' : 'Average';
-            document.getElementById('effectivenessDesc').textContent = desc;
-            
+            document.getElementById('effectivenessDisplay').textContent = `${description} (${state.effectiveness}%)`;
             updateResults();
+        }
+
+        // Calculation Functions
+        function calculateTotalKwh() {
+            let total = 0;
+            Object.keys(state.systems).forEach(type => {
+                total += state.systems[type] * consumptionRanges[type][state.usageIntensity];
+            });
+            return total;
         }
 
         function calculateSystemLifeSavings() {
-            let totalMinSavings = 0;
-            let totalMaxSavings = 0;
+            let total = 0;
+            let minTotal = 0;
+            let maxTotal = 0;
             
-            Object.keys(state.systems).forEach(unitType => {
-                const unitCount = state.systems[unitType];
-                if (unitCount > 0) {
-                    const range = systemLifeSavingsRanges[unitType];
-                    totalMinSavings += range.min * unitCount;
-                    totalMaxSavings += range.max * unitCount;
-                }
+            Object.keys(state.systems).forEach(type => {
+                const count = state.systems[type];
+                const range = systemLifeSavingsRanges[type];
+                const average = (range.min + range.max) / 2;
+                
+                total += count * average;
+                minTotal += count * range.min;
+                maxTotal += count * range.max;
             });
             
-            return { min: totalMinSavings, max: totalMaxSavings };
+            return { total, min: minTotal, max: maxTotal };
+        }
+
+        function calculateTotalSquareFootage() {
+            let total = 0;
+            Object.keys(state.systems).forEach(type => {
+                total += state.systems[type] * squareFootagePerUnit[type];
+            });
+            return total;
+        }
+
+        function calculateTaxBenefit() {
+            return calculateTotalSquareFootage() * 2.90;
         }
 
         function calculateSavings() {
-            let totalMonthlySavings = 0;
-            let totalEquipmentCost = 0;
+            const totalKwh = calculateTotalKwh();
+            const monthlySavings = totalKwh * (state.effectiveness / 100) * state.electricRate;
+            const annualSavings = monthlySavings * 12;
+            const fiveYearSavings = annualSavings * 5;
             
-            Object.keys(state.systems).forEach(unitType => {
-                const unitCount = state.systems[unitType];
-                if (unitCount > 0) {
-                    const unitKwh = consumptionRanges[unitType][state.usageIntensity];
-                    const unitMonthlySavings = unitKwh * (state.effectiveness / 100) * state.electricRate;
-                    
-                    const elevenMonthPrice = unitMonthlySavings * 11;
-                    const unitPrice = Math.max(1000, elevenMonthPrice);
-                    
-                    totalMonthlySavings += unitMonthlySavings * unitCount;
-                    totalEquipmentCost += unitPrice * unitCount;
-                }
+            const equipmentSavings = calculateSystemLifeSavings();
+            const totalProgramValue = fiveYearSavings + equipmentSavings.total;
+            
+            // Calculate investment and payback
+            let totalInvestment = 0;
+            Object.keys(state.systems).forEach(type => {
+                const count = state.systems[type];
+                const monthlyUnitSavings = consumptionRanges[type][state.usageIntensity] * 
+                                         (state.effectiveness / 100) * state.electricRate;
+                const equipmentCost = Math.max(1000, monthlyUnitSavings * 11);
+                totalInvestment += count * equipmentCost;
             });
             
-            const paybackMonths = totalEquipmentCost > 0 && totalMonthlySavings > 0 ? totalEquipmentCost / totalMonthlySavings : 0;
+            const paybackMonths = monthlySavings > 0 ? Math.round(totalInvestment / monthlySavings) : 0;
+            const taxBenefit = calculateTaxBenefit();
+            const squareFootage = calculateTotalSquareFootage();
             
             return {
-                monthlySavings: totalMonthlySavings,
-                equipmentCost: totalEquipmentCost,
-                paybackMonths: paybackMonths
+                monthly: monthlySavings,
+                annual: annualSavings,
+                fiveYear: fiveYearSavings,
+                equipment: equipmentSavings,
+                totalValue: totalProgramValue,
+                investment: totalInvestment,
+                payback: paybackMonths,
+                taxBenefit: taxBenefit,
+                squareFootage: squareFootage,
+                totalKwh: totalKwh
             };
         }
 
         function updateResults() {
-            const results = calculateSavings();
-            const systemLifeResults = calculateSystemLifeSavings();
-            const monthlySavings = results.monthlySavings;
-            const annualSavings = results.monthlySavings * 12;
-            const fiveYearSavings = annualSavings * 5;
+            const savings = calculateSavings();
             
-            // Update energy savings
-            document.getElementById('monthlySavings').textContent = '$' + Math.round(monthlySavings).toLocaleString();
-            document.getElementById('annualSavings').textContent = '$' + Math.round(annualSavings).toLocaleString();
-            document.getElementById('fiveYearSavings').textContent = '$' + Math.round(fiveYearSavings).toLocaleString();
+            // Energy Cost Savings
+            document.getElementById('annualSavings').textContent = '$' + Math.round(savings.annual).toLocaleString();
+            document.getElementById('fiveYearSavings').textContent = '$' + Math.round(savings.fiveYear).toLocaleString();
             
-            // Update equipment protection
-            if (systemLifeResults.min > 0) {
-                const avgSavings = (systemLifeResults.min + systemLifeResults.max) / 2;
-                document.getElementById('systemLifeSavings').textContent = '$' + Math.round(avgSavings).toLocaleString();
-                document.getElementById('systemLifeRange').textContent = 
-                    '($' + systemLifeResults.min.toLocaleString() + ' - $' + systemLifeResults.max.toLocaleString() + '+ range)';
-            } else {
-                document.getElementById('systemLifeSavings').textContent = '$0';
-                document.getElementById('systemLifeRange').textContent = '';
-            }
+            // Equipment Value Protection
+            document.getElementById('equipmentSavings').textContent = '$' + Math.round(savings.equipment.total).toLocaleString();
+            document.getElementById('equipmentRange').textContent = 
+                `($${Math.round(savings.equipment.min).toLocaleString()} - $${Math.round(savings.equipment.max).toLocaleString()}+ range)`;
             
-            // Calculate total program value
-            const avgEquipmentSavings = systemLifeResults.min > 0 ? (systemLifeResults.min + systemLifeResults.max) / 2 : 0;
-            const totalProgramValue = fiveYearSavings + avgEquipmentSavings;
-            document.getElementById('totalProgramValue').textContent = '$' + Math.round(totalProgramValue).toLocaleString();
+            // Total Program Value
+            document.getElementById('totalValue').textContent = '$' + Math.round(savings.totalValue).toLocaleString();
             
-            // Update investment
-            document.getElementById('equipmentCost').textContent = '$' + results.equipmentCost.toLocaleString();
+            // Tax Benefits
+            document.getElementById('taxBenefit').textContent = '$' + Math.round(savings.taxBenefit).toLocaleString();
+            document.getElementById('squareFootage').textContent = Math.round(savings.squareFootage).toLocaleString();
             
-            if (results.paybackMonths > 0) {
-                document.getElementById('paybackPeriod').textContent = Math.round(results.paybackMonths) + ' months';
-                document.getElementById('paybackYears').textContent = '(' + (results.paybackMonths / 12).toFixed(1) + ' years)';
-            } else {
-                document.getElementById('paybackPeriod').textContent = 'N/A';
-                document.getElementById('paybackYears').textContent = '';
-            }
+            // Investment & Payback
+            document.getElementById('totalInvestment').textContent = '$' + Math.round(savings.investment).toLocaleString();
+            document.getElementById('paybackPeriod').textContent = savings.payback + ' months';
             
-            // Update summary
+            // Configuration Summary
             document.getElementById('summaryRate').textContent = '$' + state.electricRate.toFixed(2) + '/kWh';
-            document.getElementById('summaryUnits').textContent = state.systems.threeTon + state.systems.fiveTon + state.systems.tenTon;
+            
+            const totalUnits = state.systems.threeTon + state.systems.fiveTon + state.systems.tenTon;
+            document.getElementById('summaryUnits').textContent = totalUnits.toString();
+            
             document.getElementById('summaryUsage').textContent = usageLabels[state.usageIntensity];
+            document.getElementById('summaryConsumption').textContent = Math.round(savings.totalKwh).toLocaleString() + ' kWh';
             document.getElementById('summaryEffectiveness').textContent = state.effectiveness + '%';
         }
 
-        // Initialize on load
-        window.addEventListener('load', updateResults);
+        // Initialize
+        updateResults();
     </script>
 </body>
 </html>
