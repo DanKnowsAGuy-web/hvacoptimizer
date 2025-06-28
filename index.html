@@ -506,7 +506,9 @@
                     </div>
                     <div class="input-row">
                         <span>$</span>
+                        <button class="counter-btn" onclick="changeRate(-0.01)">−</button>
                         <input type="number" id="electricRate" class="input-field" value="0.15" min="0.08" max="0.35" step="0.01" oninput="updateRate()">
+                        <button class="counter-btn" onclick="changeRate(0.01)">+</button>
                         <span>per kWh</span>
                     </div>
                     <p class="small-text">Range: $0.08 - $0.35/kWh</p>
@@ -587,7 +589,7 @@
                         <div class="result-value savings" id="fiveYearSavings">$0</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-label">Total Program Investment:</div>
+                        <div class="result-label">Estimated Total Program Investment:</div>
                         <div class="result-value investment" id="equipmentCost">$0</div>
                     </div>
                     <div class="result-item">
@@ -634,6 +636,19 @@ var consumptionRanges = {
 };
 
 var usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
+
+function changeRate(delta) {
+    electricRate = Math.max(0.08, Math.min(0.35, electricRate + delta));
+    document.getElementById('electricRate').value = electricRate.toFixed(2);
+    currentRateType = 'custom';
+    
+    var buttons = document.querySelectorAll('.rate-button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    
+    updateResults();
+}
 
 function setRate(type, rate) {
     electricRate = rate;
@@ -697,24 +712,44 @@ function updateEffectiveness() {
 }
 
 function calculateSavings() {
-    var totalKwh = 
-        systems.threeTon * consumptionRanges.threeTon[usageIntensity] +
-        systems.fiveTon * consumptionRanges.fiveTon[usageIntensity] +
-        systems.tenTon * consumptionRanges.tenTon[usageIntensity];
+    var consumptions = {
+        threeTon: consumptionRanges.threeTon[usageIntensity],
+        fiveTon: consumptionRanges.fiveTon[usageIntensity],
+        tenTon: consumptionRanges.tenTon[usageIntensity]
+    };
     
-    var monthlySavings = totalKwh * (effectiveness / 100) * electricRate;
+    // Calculate monthly savings per unit for each type
+    var monthlySavingsPerUnit = {
+        threeTon: consumptions.threeTon * (effectiveness / 100) * electricRate,
+        fiveTon: consumptions.fiveTon * (effectiveness / 100) * electricRate,
+        tenTon: consumptions.tenTon * (effectiveness / 100) * electricRate
+    };
+    
+    // Calculate dynamic pricing: max of $1000 or 11-month payback price
+    var dynamicPrices = {
+        threeTon: Math.max(1000, monthlySavingsPerUnit.threeTon * 11),
+        fiveTon: Math.max(1000, monthlySavingsPerUnit.fiveTon * 11),
+        tenTon: Math.max(1000, monthlySavingsPerUnit.tenTon * 11)
+    };
+    
+    // Calculate total monthly savings and equipment cost
+    var totalMonthlySavings = 
+        systems.threeTon * monthlySavingsPerUnit.threeTon +
+        systems.fiveTon * monthlySavingsPerUnit.fiveTon +
+        systems.tenTon * monthlySavingsPerUnit.tenTon;
     
     var equipmentCost = 
-        systems.threeTon * 950 +
-        systems.fiveTon * 1250 +
-        systems.tenTon * 1550;
+        systems.threeTon * dynamicPrices.threeTon +
+        systems.fiveTon * dynamicPrices.fiveTon +
+        systems.tenTon * dynamicPrices.tenTon;
     
-    var paybackMonths = equipmentCost > 0 && monthlySavings > 0 ? equipmentCost / monthlySavings : 0;
+    var paybackMonths = equipmentCost > 0 && totalMonthlySavings > 0 ? equipmentCost / totalMonthlySavings : 0;
     
     return {
-        monthlySavings: monthlySavings,
+        monthlySavings: totalMonthlySavings,
         equipmentCost: equipmentCost,
-        paybackMonths: paybackMonths
+        paybackMonths: paybackMonths,
+        dynamicPrices: dynamicPrices
     };
 }
 
