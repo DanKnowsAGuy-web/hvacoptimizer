@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HVAC Savings Calculator</title>
     <style>
+        :root {
+            /* Color Scheme */
+            --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --bg-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: #60a5fa;
+            --accent-purple: #a78bfa;
+            --accent-pink: #f472b6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-radius: 12px;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,39 +33,1039 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 20px;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container {
+        /* Enhanced Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(244, 114, 182, 0.1) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .calculator-container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 1.5rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInScale 1s ease-out forwards;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue-light), var(--accent-purple), var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 0.25rem;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease-in-out infinite;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.8;
+        .title-icon {
+            font-size: 2.25rem;
+            background: linear-gradient(135deg, var(--accent-blue-light), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
         }
 
-        @keyframes fadeInUp {
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeInScale {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+            line-height: 1.4;
+        }
+
+        .progress-container {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: slideInFromTop 0.8s ease-out 0.5s forwards;
+        }
+
+        @keyframes slideInFromTop {
+            from { 
+                opacity: 0; 
+                transform: translateY(-30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: progressShimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            width: 25%;
+            transition: width 0.8s var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: fillShimmer 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fillShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.4s var(--transition);
+            position: relative;
+        }
+
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s var(--transition);
+            z-index: -1;
+        }
+
+        .progress-step:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .progress-step:hover::before {
+            width: 120px;
+            height: 120px;
+        }
+
+        .progress-step.clickable:hover {
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            transition: all 0.4s var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-circle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s var(--transition);
+        }
+
+        .progress-step:hover .step-circle::before {
+            transform: translateX(100%);
+        }
+
+        .progress-step.active .step-circle {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 0 0 50px rgba(59, 130, 246, 0.3);
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed .step-circle {
+            background: linear-gradient(135deg, var(--accent-green), #047857);
+            color: white;
+            animation: completedPulse 0.6s ease-out;
+        }
+
+        @keyframes completedPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .wizard-container {
+            position: relative;
+            min-height: 500px;
+        }
+
+        .step {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(100px) scale(0.95);
+            transition: all 0.8s var(--transition-spring);
+            pointer-events: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(59, 130, 246, 0.05) 0%, 
+                rgba(167, 139, 250, 0.05) 50%, 
+                rgba(244, 114, 182, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s var(--transition);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-hover), var(--shadow-glow);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue-light), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Step 1: Rate Selection Styles */
+        .rate-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .rate-button {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rate-button:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .rate-button.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .rate-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .rate-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-blue-light);
+        }
+
+        .manual-input {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced Step 2: HVAC Systems Styles */
+        .system-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .system-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .system-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .system-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(167, 139, 250, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s var(--transition);
+        }
+
+        .system-item:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .system-item:hover::before {
+            opacity: 1;
+        }
+
+        .counter-button {
+            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            border: none;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-spring);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.125rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counter-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s var(--transition);
+        }
+
+        .counter-button:hover {
+            background: linear-gradient(135deg, var(--accent-blue-light), #3b82f6);
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .counter-button:hover::before {
+            width: 50px;
+            height: 50px;
+        }
+
+        .counter-button:active {
+            transform: scale(1.05);
+        }
+
+        .counter-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .counter-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue-light);
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s var(--transition-spring);
+        }
+
+        .counter-display.updated {
+            animation: counterPop 0.4s var(--transition-spring);
+        }
+
+        @keyframes counterPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); color: var(--accent-blue); }
+            100% { transform: scale(1); }
+        }
+
+        /* Step 3: Usage Intensity Styles */
+        .usage-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .usage-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            position: relative;
+        }
+
+        .usage-option:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .usage-option.active {
+            border-color: var(--accent-blue);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(167, 139, 250, 0.2));
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .usage-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .usage-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            margin-right: 1rem;
+            position: relative;
+            transition: all 0.3s var(--transition);
+        }
+
+        .usage-option.active .usage-radio {
+            border-color: var(--accent-blue);
+            background: var(--accent-blue);
+        }
+
+        .usage-option.active .usage-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .usage-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .usage-description {
+            color: var(--text-secondary);
+            margin-left: 2rem;
+        }
+
+        /* Step 4: Effectiveness Slider Styles */
+        .slider-container {
+            margin-bottom: 2rem;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .effectiveness-slider {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .effectiveness-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            transition: all 0.3s var(--transition);
+        }
+
+        .effectiveness-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+        }
+
+        .effectiveness-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .current-value {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .value-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-blue-light);
+        }
+
+        .value-description {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Common Form Styles */
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            flex: 1;
+            transition: all 0.3s var(--transition);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .adjust-button {
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .adjust-button:hover {
+            background: var(--accent-blue-light);
+            transform: scale(1.1);
+        }
+
+        /* Navigation Styles */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-button.cta {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            font-size: 1.125rem;
+            padding: 1rem 2rem;
+        }
+
+        .nav-button.cta:hover {
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Validation Styles */
+        .validation-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            color: #fca5a5;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .validation-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Summary Display */
+        .step-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue-light);
+        }
+
+        .summary-content {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Results Display Styles */
+        .results-container {
+            display: none;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 769px) {
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.6s ease-out forwards;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .result-card:nth-child(1) { animation-delay: 0.1s; }
+        .result-card:nth-child(2) { animation-delay: 0.2s; }
+        .result-card:nth-child(3) { animation-delay: 0.3s; }
+        .result-card:nth-child(4) { animation-delay: 0.4s; }
+        .result-card:nth-child(5) { animation-delay: 0.5s; }
+        .result-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .result-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .result-card.energy {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            border-color: #3b82f6;
+        }
+
+        .result-card.equipment {
+            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+            border-color: #10b981;
+        }
+
+        .result-card.total {
+            background: linear-gradient(135deg, #7c2d12 0%, #b91c1c 100%);
+            border: 2px solid #fbbf24;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card.total::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .result-card.tax {
+            background: linear-gradient(135deg, #581c87 0%, #8b5cf6 100%);
+            border-color: #a78bfa;
+        }
+
+        .result-card.investment {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+            border-color: #6b7280;
+        }
+
+        .result-card.summary {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+            border-color: #6b7280;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 0.75rem;
+        }
+
+        .result-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .result-values {
+            margin-bottom: 1rem;
+        }
+
+        .primary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .secondary-value {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .result-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .equipment-breakdown {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .actions-container {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .action-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
@@ -56,919 +1076,1238 @@
             }
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.8;
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .card {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
-            border: 1px solid transparent;
-            background-clip: padding-box;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.3));
-            border-radius: inherit;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: xor;
-            -webkit-mask-composite: xor;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .rate-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .rate-btn {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid #374151;
-            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .rate-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .rate-btn:hover::before {
-            left: 100%;
-        }
-
-        .rate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border-color: #6366f1;
-        }
-
-        .rate-btn.active {
-            border-color: #3b82f6;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .manual-input {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .manual-input label {
-            font-weight: 500;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            background: #374151;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .adjust-btn, .counter-btn {
-            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .adjust-btn::before, .counter-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease;
-        }
-
-        .adjust-btn:hover::before, .counter-btn::before:hover {
-            width: 80px;
-            height: 80px;
-        }
-
-        .adjust-btn:hover, .counter-btn:hover {
-            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .adjust-btn:active, .counter-btn:active {
-            transform: scale(0.95);
-        }
-
-        .counter-btn {
-            width: 35px;
-            height: 35px;
-            font-size: 1.1rem;
-        }
-
-        .rate-input {
-            background: transparent;
-            border: none;
-            color: white;
-            text-align: center;
-            width: 80px;
-            height: 40px;
-            font-size: 1rem;
-        }
-
-        .rate-input:focus {
-            outline: none;
-        }
-
-        .system-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-
-        .system-label {
-            font-weight: 500;
-            min-width: 100px;
-        }
-
-        .system-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .counter-btn {
-            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .counter-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease;
-        }
-
-        .counter-btn:hover::before {
-            width: 70px;
-            height: 70px;
-        }
-
-        .counter-btn:hover {
-            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .counter-btn:active {
-            transform: scale(0.95);
-        }
-
-        .counter-display {
-            font-size: 1.2rem;
-            font-weight: 600;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .slider-container {
-            margin: 1rem 0;
-        }
-
-        .slider {
-            width: 100%;
-            height: 12px;
-            background: linear-gradient(90deg, #374151 0%, #4b5563 50%, #374151 100%);
-            border-radius: 6px;
-            outline: none;
-            -webkit-appearance: none;
-            position: relative;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .slider:hover {
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6), 0 0 20px rgba(99, 102, 241, 0.4);
-        }
-
-        .slider::-webkit-slider-thumb:active {
-            transform: scale(1.1);
-        }
-
-        .slider::-moz-range-thumb {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%);
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .slider::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
-        }
-
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .slider-description {
-            text-align: center;
-            margin-top: 0.5rem;
-            font-style: italic;
-            opacity: 0.7;
-        }
-
-        .effectiveness-display {
-            text-align: center;
-            margin: 1rem 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        /* Result Cards */
-        .result-card {
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .result-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .result-card:hover::before {
-            left: 100%;
-        }
-
-        .result-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .energy-card {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-        }
-
-        .energy-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(29, 78, 216, 0.3);
-        }
-
-        .equipment-card {
-            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
-        }
-
-        .equipment-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(5, 150, 105, 0.3);
-        }
-
-        .total-card {
-            background: linear-gradient(135deg, #7c2d12 0%, #b91c1c 100%);
-            border: 2px solid #fbbf24;
-            position: relative;
-        }
-
-        .total-card::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            padding: 2px;
-            background: linear-gradient(45deg, #fbbf24, #f59e0b, #fbbf24);
-            border-radius: inherit;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: xor;
-            -webkit-mask-composite: xor;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .total-card:hover::after {
-            opacity: 1;
-        }
-
-        .total-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(251, 191, 36, 0.4);
-        }
-
-        .tax-card {
-            background: linear-gradient(135deg, #581c87 0%, #8b5cf6 100%);
-        }
-
-        .tax-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(139, 92, 246, 0.3);
-        }
-
-        .investment-card, .summary-card {
-            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-        }
-
-        .investment-card:hover, .summary-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(75, 85, 99, 0.2);
-        }
-
-        .result-box {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .result-box:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .result-box:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-amount {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .result-box:hover .result-amount {
-            transform: scale(1.05);
-        }
-
-        .result-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .result-subtext {
-            font-size: 0.85rem;
-            opacity: 0.7;
-            margin-top: 0.5rem;
-        }
-
-        .cta-card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cta-card:hover::before {
-            left: 100%;
-        }
-
-        .cta-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .summary-row:last-child {
-            border-bottom: none;
-        }
-
-        .summary-label {
-            font-weight: 500;
-        }
-
-        .summary-value {
-            opacity: 0.8;
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 0 10px;
+        @media (max-width: 768px) {
+            .calculator-container {
+                padding: 0.75rem;
             }
 
-            .header h1 {
-                font-size: 2rem;
+            .title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .title-icon {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 0.875rem;
+            }
+
+            .header {
+                margin-bottom: 1rem;
+            }
+
+            .progress-container {
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                padding: 1.25rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
             }
 
             .rate-buttons {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
             }
 
-            .rate-btn {
-                flex: none;
+            .rate-button {
+                padding: 0.75rem;
             }
 
-            .system-row {
+            .system-header {
                 flex-direction: column;
-                gap: 1rem;
                 align-items: flex-start;
+                gap: 1rem;
             }
 
-            .system-controls {
-                align-self: center;
+            .counter-controls {
+                align-self: flex-end;
+                gap: 0.5rem;
+            }
+
+            .counter-button {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            .counter-display {
+                font-size: 1.25rem;
+                min-width: 35px;
+            }
+
+            .usage-description {
+                margin-left: 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-button {
+                padding: 0.625rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .progress-steps {
+                font-size: 0.75rem;
+            }
+
+            .step-circle {
+                width: 28px;
+                height: 28px;
+                margin-right: 0.25rem;
+                font-size: 0.875rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .result-card {
+                padding: 1rem;
+            }
+
+            .primary-value {
+                font-size: 1.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-button {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 0.5rem;
+            }
+
+            .header {
+                margin-bottom: 1rem;
+            }
+
+            .progress-container {
+                margin-bottom: 1rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-description {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+
+            .rate-button {
+                padding: 0.625rem 0.5rem;
+            }
+
+            .rate-value {
+                font-size: 1rem;
+            }
+
+            .system-header {
+                gap: 0.75rem;
+            }
+
+            .counter-button {
+                width: 28px;
+                height: 28px;
+                font-size: 0.875rem;
+            }
+
+            .counter-display {
+                font-size: 1.125rem;
+                min-width: 30px;
+            }
+
+            .counter-controls {
+                gap: 0.375rem;
+            }
+
+            .usage-option {
+                padding: 0.75rem;
+            }
+
+            .value-display {
+                font-size: 1.5rem;
+            }
+
+            .step-summary {
+                padding: 0.5rem;
+            }
+
+            .progress-steps span {
+                display: none;
+            }
+
+            .step-circle {
+                margin-right: 0;
+            }
+        }
+
+        /* Landscape orientation optimization */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .calculator-container {
+                padding: 0.5rem;
+                justify-content: flex-start;
+                padding-top: 1rem;
+            }
+
+            .header {
+                margin-bottom: 0.75rem;
+            }
+
+            .progress-container {
+                margin-bottom: 0.75rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-description {
+                margin-bottom: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .wizard-container {
+                min-height: 300px;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .result-card {
+                padding: 1rem;
+            }
+
+            .primary-value {
+                font-size: 1.5rem;
+            }
+
+            .actions-container {
+                margin-top: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
+    <div class="calculator-container">
         <div class="header">
-            <h1>⚡ Your HVAC Savings Impact</h1>
-            <p>Calculate your potential energy savings and equipment protection value</p>
+            <h1 class="title">
+                <span class="title-icon">🏢</span>
+                HVAC Savings Calculator
+            </h1>
+            <p class="subtitle">Calculate your energy savings and ROI in 4 simple steps</p>
         </div>
 
-        <!-- Input Cards -->
-        <div class="card">
-            <div class="card-title">⚡ 1. Electric Rate</div>
-            <div class="rate-buttons">
-                <button class="rate-btn" onclick="setRate(0.11, this)">Conservative<br>$0.11/kWh</button>
-                <button class="rate-btn active" onclick="setRate(0.15, this)">Moderate<br>$0.15/kWh</button>
-                <button class="rate-btn" onclick="setRate(0.20, this)">Expensive<br>$0.20/kWh</button>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="manual-input">
-                <label>Manual Rate:</label>
-                <div class="input-group">
-                    <button class="adjust-btn" onclick="adjustRate(-0.01)">−</button>
-                    <input type="number" id="rateInput" class="rate-input" value="0.15" min="0.08" max="0.35" step="0.01" onchange="updateRate()">
-                    <button class="adjust-btn" onclick="adjustRate(0.01)">+</button>
+            <div class="progress-steps">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">💰</div>
+                    <span>Electric Rate</span>
                 </div>
-                <span>/kWh</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">🏢 2. HVAC Systems</div>
-            <div class="system-row">
-                <span class="system-label">3-ton units:</span>
-                <div class="system-controls">
-                    <button class="counter-btn" onclick="changeSystem('threeTon', -1)">−</button>
-                    <span class="counter-display" id="threeTonCount">0</span>
-                    <button class="counter-btn" onclick="changeSystem('threeTon', 1)">+</button>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">❄️</div>
+                    <span>HVAC Systems</span>
                 </div>
-            </div>
-            <div class="system-row">
-                <span class="system-label">5-ton units:</span>
-                <div class="system-controls">
-                    <button class="counter-btn" onclick="changeSystem('fiveTon', -1)">−</button>
-                    <span class="counter-display" id="fiveTonCount">1</span>
-                    <button class="counter-btn" onclick="changeSystem('fiveTon', 1)">+</button>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">📊</div>
+                    <span>Usage Intensity</span>
                 </div>
-            </div>
-            <div class="system-row">
-                <span class="system-label">10-ton units:</span>
-                <div class="system-controls">
-                    <button class="counter-btn" onclick="changeSystem('tenTon', -1)">−</button>
-                    <span class="counter-display" id="tenTonCount">0</span>
-                    <button class="counter-btn" onclick="changeSystem('tenTon', 1)">+</button>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">📈</div>
+                    <span>Savings %</span>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-title">📊 3. Usage Intensity</div>
-            <div class="slider-container">
-                <input type="range" id="usageSlider" class="slider" min="0" max="2" value="1" step="1" onchange="updateUsage()">
-                <div class="slider-labels">
-                    <span>Light</span>
-                    <span>Moderate</span>
-                    <span>Heavy</span>
+        <div class="wizard-container">
+            <!-- Step 1: Electric Rate Selection -->
+            <div class="step active" id="step1">
+                <div class="card">
+                    <h2 class="card-title">Step 1: Select Your Region's Electric Rate</h2>
+
+                    
+                    <div class="rate-buttons">
+                        <button class="rate-button" data-rate="0.11">
+                            <div class="rate-label">Conservative</div>
+                            <div class="rate-value">$0.11/kWh</div>
+                        </button>
+                        <button class="rate-button active" data-rate="0.15">
+                            <div class="rate-label">Moderate</div>
+                            <div class="rate-value">$0.15/kWh</div>
+                        </button>
+                        <button class="rate-button" data-rate="0.20">
+                            <div class="rate-label">Expensive</div>
+                            <div class="rate-value">$0.20/kWh</div>
+                        </button>
+                    </div>
+
+                    <div class="manual-input">
+                        <div class="input-group">
+                            <label class="input-label">Or enter your exact rate:</label>
+                            <div class="input-container">
+                                <button class="adjust-button" id="decreaseRate">-</button>
+                                <input 
+                                    type="number" 
+                                    class="input-field" 
+                                    id="manualRate" 
+                                    value="0.15" 
+                                    min="0.08" 
+                                    max="0.35" 
+                                    step="0.01"
+                                    placeholder="Enter rate"
+                                >
+                                <button class="adjust-button" id="increaseRate">+</button>
+                                <span style="margin-left: 0.5rem; color: var(--text-secondary);">$/kWh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="validation-message" id="step1Validation">
+                        Please select or enter a valid electric rate between $0.08 and $0.35 per kWh.
+                    </div>
+
+                    <div class="navigation">
+                        <div></div>
+                        <button class="nav-button" id="step1Next">
+                            Next Step
+                            <span>→</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="slider-description" id="usageDescription">Standard commercial</div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-title">🎯 4. Savings from HVAC Optimizer</div>
-            <div class="slider-container">
-                <input type="range" id="effectivenessSlider" class="slider" min="15" max="30" value="20" step="1" onchange="updateEffectiveness()">
-                <div class="slider-labels">
-                    <span>Conservative (15%)</span>
-                    <span>Excellent (30%)</span>
+            <!-- Step 2: HVAC Systems Configuration -->
+            <div class="step" id="step2">
+                <div class="card">
+                    <h2 class="card-title">Step 2: Select Your HVAC Systems Mix</h2>
+
+                    
+                    <div class="systems-grid">
+                        <div class="system-item">
+                            <div class="system-header">
+                                <div class="system-info">
+                                    <h3>3-Ton Units</h3>
+                                    <p>Covers ~1,500 sq ft • Office spaces, small retail</p>
+                                </div>
+                                <div class="counter-controls">
+                                    <button class="counter-button" data-system="threeTon" data-action="decrease">-</button>
+                                    <div class="counter-display" id="threeTonCount">0</div>
+                                    <button class="counter-button" data-system="threeTon" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="system-item">
+                            <div class="system-header">
+                                <div class="system-info">
+                                    <h3>5-Ton Units</h3>
+                                    <p>Covers ~2,500 sq ft • Standard commercial spaces</p>
+                                </div>
+                                <div class="counter-controls">
+                                    <button class="counter-button" data-system="fiveTon" data-action="decrease">-</button>
+                                    <div class="counter-display" id="fiveTonCount">1</div>
+                                    <button class="counter-button" data-system="fiveTon" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="system-item">
+                            <div class="system-header">
+                                <div class="system-info">
+                                    <h3>10-Ton Units</h3>
+                                    <p>Covers ~5,000 sq ft • Large commercial, industrial</p>
+                                </div>
+                                <div class="counter-controls">
+                                    <button class="counter-button" data-system="tenTon" data-action="decrease">-</button>
+                                    <div class="counter-display" id="tenTonCount">0</div>
+                                    <button class="counter-button" data-system="tenTon" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="validation-message" id="step2Validation">
+                        Please select at least one HVAC unit to continue.
+                    </div>
+
+                    <div class="navigation">
+                        <button class="nav-button secondary" id="step2Back">
+                            <span>←</span>
+                            Back
+                        </button>
+                        <button class="nav-button" id="step2Next">
+                            Next Step
+                            <span>→</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="effectiveness-display" id="effectivenessDisplay">Average (20%)</div>
+            </div>
+
+            <!-- Step 3: Usage Intensity Selection -->
+            <div class="step" id="step3">
+                <div class="card">
+                    <h2 class="card-title">Step 3: Select Usage Intensity</h2>
+
+                    
+                    <div class="usage-options">
+                        <div class="usage-option" data-intensity="0">
+                            <div class="usage-header">
+                                <div class="usage-radio"></div>
+                                <div class="usage-title">Light Usage</div>
+                            </div>
+                            <div class="usage-description">
+                                Office hours only (8-10 hours/day) • Minimal evening/weekend operation
+                            </div>
+                        </div>
+
+                        <div class="usage-option active" data-intensity="1">
+                            <div class="usage-header">
+                                <div class="usage-radio"></div>
+                                <div class="usage-title">Moderate Usage</div>
+                            </div>
+                            <div class="usage-description">
+                                Standard commercial hours (12-14 hours/day) • Some evening/weekend operation
+                            </div>
+                        </div>
+
+                        <div class="usage-option" data-intensity="2">
+                            <div class="usage-header">
+                                <div class="usage-radio"></div>
+                                <div class="usage-title">Heavy Usage</div>
+                            </div>
+                            <div class="usage-description">
+                                24/7 operations • Manufacturing, healthcare, data centers
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation">
+                        <button class="nav-button secondary" id="step3Back">
+                            <span>←</span>
+                            Back
+                        </button>
+                        <button class="nav-button" id="step3Next">
+                            Next Step
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Savings Effectiveness -->
+            <div class="step" id="step4">
+                <div class="card">
+                    <h2 class="card-title">Step 4: Expected Savings from HVAC Optimizer</h2>
+
+                    
+                    <div class="slider-container">
+                        <div class="current-value">
+                            <div class="value-display" id="effectivenessValue">20%</div>
+                            <div class="value-description" id="effectivenessDescription">Good savings potential</div>
+                        </div>
+
+                        <div class="slider-wrapper">
+                            <input 
+                                type="range" 
+                                class="effectiveness-slider" 
+                                id="effectivenessSlider"
+                                min="15" 
+                                max="30" 
+                                value="20" 
+                                step="1"
+                            >
+                            <div class="slider-labels">
+                                <span>Conservative (15%)</span>
+                                <span>Excellent (30%)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation">
+                        <button class="nav-button secondary" id="step4Back">
+                            <span>←</span>
+                            Back
+                        </button>
+                        <button class="nav-button cta" id="seeResults">
+                            See Your Savings
+                            <span>💰</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Result Cards -->
-        <div class="result-card energy-card">
-            <div class="card-title">💡 Energy Cost Savings</div>
-            <div class="result-box">
-                <div class="result-amount" id="annualSavings">$0</div>
-                <div class="result-label">Annual HVAC Energy Savings</div>
-            </div>
-            <div class="result-box">
-                <div class="result-amount" id="fiveYearSavings">$0</div>
-                <div class="result-label">Five Year HVAC Energy Savings</div>
-            </div>
-        </div>
+        <!-- Results Display -->
+        <div class="results-container" id="resultsContainer">
+            <div class="results-grid">
+                <!-- Energy Savings Card -->
+                <div class="result-card energy">
+                    <div class="result-header">
+                        <div class="result-icon">⚡</div>
+                        <div class="result-title">Annual Energy Cost Savings</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="primary-value" id="annualEnergySavings">$0</div>
+                        <div class="secondary-value" id="fiveYearEnergySavings">$0 over 5 years</div>
+                    </div>
+                    <div class="result-description">
+                        Annual HVAC energy cost reduction through optimization
+                    </div>
+                </div>
 
-        <div class="result-card equipment-card">
-            <div class="card-title">🛡️ Equipment Value Protection</div>
-            <div class="result-box">
-                <div class="result-amount" id="equipmentSavings">$0</div>
-                <div class="result-label">Money Saved by Extending System Life</div>
-                <div class="result-subtext" id="equipmentRange">($0 - $0+ range)</div>
-            </div>
-        </div>
+                <!-- Equipment Protection Card -->
+                <div class="result-card equipment">
+                    <div class="result-header">
+                        <div class="result-icon">🛡️</div>
+                        <div class="result-title">Equipment Value Protection</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="primary-value" id="equipmentSavings">$0</div>
+                        <div class="secondary-value">Extended system lifespan</div>
+                    </div>
+                    <div class="result-description">
+                        Money saved by extending HVAC system life and reducing maintenance costs
+                    </div>
+                    <div class="equipment-breakdown" id="equipmentBreakdown">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
 
-        <div class="result-card total-card">
-            <div class="card-title">💰 Total 5-Year Program Value</div>
-            <div class="result-box">
-                <div class="result-amount" id="totalValue">$0</div>
-                <div class="result-label">Combined Energy + Equipment Savings</div>
-                <div class="result-subtext">Your complete return on investment</div>
-            </div>
-        </div>
+                <!-- Total Program Value Card -->
+                <div class="result-card total">
+                    <div class="result-header">
+                        <div class="result-icon">💰</div>
+                        <div class="result-title">Total 5-Year Program Value</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="primary-value" id="totalProgramValue">$0</div>
+                        <div class="secondary-value">Combined Energy + Equipment Savings</div>
+                    </div>
+                    <div class="result-description">
+                        Total financial benefit from energy savings and equipment protection
+                    </div>
+                </div>
 
-        <div class="result-card tax-card">
-            <div class="card-title">🏛️ Potential Federal Tax Benefits</div>
-            <div class="result-box">
-                <div class="result-amount" id="taxBenefit">$0</div>
-                <div class="result-label">Bonus: Your project may qualify for Section 179D federal tax deductions worth:</div>
-                <div class="result-subtext">Based on 25% energy reduction. <span id="squareFootage">0</span> square feet.</div>
-            </div>
-            <div class="cta-card">
-                <div>📅 Schedule a free 15-minute assessment to check qualifications</div>
-            </div>
-        </div>
+                <!-- Tax Benefits Card -->
+                <div class="result-card tax">
+                    <div class="result-header">
+                        <div class="result-icon">📊</div>
+                        <div class="result-title">Potential Federal Tax Benefits</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="primary-value" id="taxBenefit">$0</div>
+                        <div class="secondary-value" id="squareFootageDisplay">0 sq ft facility</div>
+                    </div>
+                    <div class="result-description">
+                        You may qualify for Section 179D deduction on energy-efficient commercial building improvements. Ask for a Free 15-Minute Assessment.
+                    </div>
+                </div>
 
-        <div class="result-card investment-card">
-            <div class="card-title">📊 Investment & Payback</div>
-            <div class="result-box">
-                <div class="result-amount" id="totalInvestment">$0</div>
-                <div class="result-label">Estimated Total Program Investment</div>
-            </div>
-            <div class="result-box">
-                <div class="result-amount" id="paybackPeriod">0 months</div>
-                <div class="result-label">Payback Period (On Energy Savings Alone)</div>
-            </div>
-        </div>
+                <!-- Investment & Payback Card -->
+                <div class="result-card investment">
+                    <div class="result-header">
+                        <div class="result-icon">📈</div>
+                        <div class="result-title">Investment & Payback</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="primary-value" id="totalInvestment">$0</div>
+                        <div class="secondary-value" id="paybackPeriod">0 months payback</div>
+                    </div>
+                    <div class="result-description">
+                        Estimated total program investment and time to break even
+                    </div>
+                </div>
 
-        <div class="result-card summary-card">
-            <div class="card-title">📋 Configuration Summary</div>
-            <div class="summary-row">
-                <span class="summary-label">Electric Rate:</span>
-                <span class="summary-value" id="summaryRate">$0.15/kWh</span>
+                <!-- Configuration Summary Card -->
+                <div class="result-card summary">
+                    <div class="result-header">
+                        <div class="result-icon">⚙️</div>
+                        <div class="result-title">Configuration Summary</div>
+                    </div>
+                    <div class="result-values">
+                        <div class="secondary-value" id="configSummary">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                    <div class="result-description">
+                        Your facility configuration and analysis parameters
+                    </div>
+                </div>
             </div>
-            <div class="summary-row">
-                <span class="summary-label">Total Units:</span>
-                <span class="summary-value" id="summaryUnits">1</span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Usage:</span>
-                <span class="summary-value" id="summaryUsage">Standard commercial</span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Monthly kWh Consumption:</span>
-                <span class="summary-value" id="summaryConsumption">3,750 kWh</span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Effectiveness:</span>
-                <span class="summary-value" id="summaryEffectiveness">20%</span>
+
+            <div class="actions-container">
+                <div class="action-buttons">
+                    <button class="action-button" onclick="startOver()">
+                        <span>🔄</span>
+                        Start Over
+                    </button>
+                    <button class="action-button secondary" onclick="modifyInputs()">
+                        <span>✏️</span>
+                        Modify Inputs
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Data tables
+        // Wizard State Management
+        const wizardState = {
+            currentStep: 1,
+            totalSteps: 4,
+            formData: {
+                electricRate: 0.15,
+                systems: { threeTon: 0, fiveTon: 1, tenTon: 0 },
+                usageIntensity: 1,
+                effectiveness: 20
+            },
+            completedSteps: [],
+            showResults: false
+        };
+
+        // Consumption data (kWh per month by system type and usage level)
         const consumptionRanges = {
             threeTon: [1200, 2250, 4050],
-            fiveTon: [2000, 3750, 6750],
+            fiveTon: [2000, 3750, 6750], 
             tenTon: [4000, 7500, 13500]
         };
 
+        // Equipment savings ranges
         const systemLifeSavingsRanges = {
             threeTon: { min: 2500, max: 4000 },
             fiveTon: { min: 4000, max: 6500 },
             tenTon: { min: 6500, max: 10000 }
         };
 
+        // Square footage per unit for tax calculations
         const squareFootagePerUnit = {
             threeTon: 1500,
-            fiveTon: 2500,
+            fiveTon: 2500, 
             tenTon: 5000
         };
 
-        const usageLabels = ['Office hours', 'Standard commercial', '24/7 operations'];
+        // DOM Elements
+        const progressFill = document.getElementById('progressFill');
+        const progressSteps = document.querySelectorAll('.progress-step');
 
-        // State
-        let state = {
-            electricRate: 0.15,
-            systems: {
-                threeTon: 0,
-                fiveTon: 1,
-                tenTon: 0
-            },
-            usageIntensity: 1,
-            effectiveness: 20
+        // Step 1 elements
+        const rateButtons = document.querySelectorAll('.rate-button');
+        const manualRateInput = document.getElementById('manualRate');
+        const decreaseButton = document.getElementById('decreaseRate');
+        const increaseButton = document.getElementById('increaseRate');
+
+        // Step 2 elements
+        const counterButtons = document.querySelectorAll('.counter-button');
+        const threeTonDisplay = document.getElementById('threeTonCount');
+        const fiveTonDisplay = document.getElementById('fiveTonCount');
+        const tenTonDisplay = document.getElementById('tenTonCount');
+
+        // Step 3 elements
+        const usageOptions = document.querySelectorAll('.usage-option');
+
+        // Step 4 elements
+        const effectivenessSlider = document.getElementById('effectivenessSlider');
+        const effectivenessValue = document.getElementById('effectivenessValue');
+        const effectivenessDescription = document.getElementById('effectivenessDescription');
+
+        // Navigation elements
+        const navButtons = {
+            step1Next: document.getElementById('step1Next'),
+            step2Back: document.getElementById('step2Back'),
+            step2Next: document.getElementById('step2Next'),
+            step3Back: document.getElementById('step3Back'),
+            step3Next: document.getElementById('step3Next'),
+            step4Back: document.getElementById('step4Back'),
+            seeResults: document.getElementById('seeResults')
         };
 
-        // Electric Rate Functions
-        function setRate(rate, button) {
-            state.electricRate = rate;
-            document.getElementById('rateInput').value = rate.toFixed(2);
-            
-            // Update button states
-            document.querySelectorAll('.rate-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            updateResults();
+        // Summary elements (removed from UI)
+        // const rateSummary = document.getElementById('rateSummary');
+        // const systemsSummary = document.getElementById('systemsSummary');
+        // const usageSummary = document.getElementById('usageSummary');
+
+        // Validation elements
+        const validationMessages = {
+            step1: document.getElementById('step1Validation'),
+            step2: document.getElementById('step2Validation')
+        };
+
+        // Initialize
+        function init() {
+            setupEventListeners();
+            updateUI();
+            updateSummaries();
         }
 
-        function adjustRate(delta) {
-            const input = document.getElementById('rateInput');
-            const newRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) + delta));
-            input.value = newRate.toFixed(2);
-            updateRate();
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Step 1: Rate selection
+            rateButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const rate = parseFloat(button.dataset.rate);
+                    selectRate(rate);
+                });
+            });
+
+            manualRateInput.addEventListener('input', (e) => {
+                const rate = parseFloat(e.target.value);
+                if (rate >= 0.08 && rate <= 0.35) {
+                    wizardState.formData.electricRate = rate;
+                    updateRateButtonStates();
+                    updateSummaries();
+                }
+            });
+
+            decreaseButton.addEventListener('click', () => {
+                const currentRate = wizardState.formData.electricRate;
+                const newRate = Math.max(0.08, Math.round((currentRate - 0.01) * 100) / 100);
+                selectRate(newRate);
+            });
+
+            increaseButton.addEventListener('click', () => {
+                const currentRate = wizardState.formData.electricRate;
+                const newRate = Math.min(0.35, Math.round((currentRate + 0.01) * 100) / 100);
+                selectRate(newRate);
+            });
+
+            // Step 2: HVAC systems
+            counterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const system = button.dataset.system;
+                    const action = button.dataset.action;
+                    updateSystemCount(system, action);
+                });
+            });
+
+            // Step 3: Usage intensity
+            usageOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const intensity = parseInt(option.dataset.intensity);
+                    selectUsageIntensity(intensity);
+                });
+            });
+
+            // Step 4: Effectiveness slider
+            effectivenessSlider.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                wizardState.formData.effectiveness = value;
+                updateEffectivenessDisplay(value);
+            });
+
+            // Navigation buttons
+            navButtons.step1Next.addEventListener('click', () => nextStep());
+            navButtons.step2Back.addEventListener('click', () => previousStep());
+            navButtons.step2Next.addEventListener('click', () => nextStep());
+            navButtons.step3Back.addEventListener('click', () => previousStep());
+            navButtons.step3Next.addEventListener('click', () => nextStep());
+            navButtons.step4Back.addEventListener('click', () => previousStep());
+            navButtons.seeResults.addEventListener('click', () => showResults());
+
+            // Progress step navigation
+            progressSteps.forEach(step => {
+                step.addEventListener('click', () => {
+                    const targetStep = parseInt(step.dataset.step);
+                    if (targetStep < wizardState.currentStep || step.classList.contains('completed')) {
+                        navigateToStep(targetStep);
+                    }
+                });
+            });
         }
 
-        function updateRate() {
-            const input = document.getElementById('rateInput');
-            state.electricRate = Math.max(0.08, Math.min(0.35, parseFloat(input.value) || 0.15));
-            input.value = state.electricRate.toFixed(2);
-            
-            // Clear active button states for manual input
-            document.querySelectorAll('.rate-btn').forEach(btn => btn.classList.remove('active'));
-            
-            updateResults();
+        // Step 1: Rate Selection Functions
+        function selectRate(rate) {
+            wizardState.formData.electricRate = rate;
+            manualRateInput.value = rate.toFixed(2);
+            updateRateButtonStates();
+            updateSummaries();
         }
 
-        // HVAC Systems Functions
-        function changeSystem(type, delta) {
-            state.systems[type] = Math.max(0, state.systems[type] + delta);
-            document.getElementById(type + 'Count').textContent = state.systems[type];
-            updateResults();
+        function updateRateButtonStates() {
+            const currentRate = wizardState.formData.electricRate;
+            
+            rateButtons.forEach(button => {
+                const buttonRate = parseFloat(button.dataset.rate);
+                if (Math.abs(buttonRate - currentRate) < 0.001) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
         }
 
-        // Usage Functions
-        function updateUsage() {
-            const slider = document.getElementById('usageSlider');
-            state.usageIntensity = parseInt(slider.value);
-            document.getElementById('usageDescription').textContent = usageLabels[state.usageIntensity];
-            updateResults();
+        // Step 2: HVAC Systems Functions
+        function updateSystemCount(system, action) {
+            const current = wizardState.formData.systems[system];
+            let newValue = current;
+
+            if (action === 'increase') {
+                newValue = current + 1;
+            } else if (action === 'decrease' && current > 0) {
+                newValue = current - 1;
+            }
+
+            wizardState.formData.systems[system] = newValue;
+            updateSystemDisplays();
+            updateSummaries();
         }
 
-        // Effectiveness Functions
-        function updateEffectiveness() {
-            const slider = document.getElementById('effectivenessSlider');
-            state.effectiveness = parseInt(slider.value);
+        function updateSystemDisplays() {
+            threeTonDisplay.textContent = wizardState.formData.systems.threeTon;
+            fiveTonDisplay.textContent = wizardState.formData.systems.fiveTon;
+            tenTonDisplay.textContent = wizardState.formData.systems.tenTon;
+
+            // Update decrease button states
+            counterButtons.forEach(button => {
+                if (button.dataset.action === 'decrease') {
+                    const system = button.dataset.system;
+                    const count = wizardState.formData.systems[system];
+                    button.disabled = count === 0;
+                }
+            });
+        }
+
+        // Step 3: Usage Intensity Functions
+        function selectUsageIntensity(intensity) {
+            wizardState.formData.usageIntensity = intensity;
             
-            let description = 'Average';
-            if (state.effectiveness <= 17) description = 'Conservative';
-            else if (state.effectiveness >= 27) description = 'Excellent';
+            usageOptions.forEach(option => {
+                const optionIntensity = parseInt(option.dataset.intensity);
+                if (optionIntensity === intensity) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
             
-            document.getElementById('effectivenessDisplay').textContent = `${description} (${state.effectiveness}%)`;
-            updateResults();
+            updateSummaries();
+        }
+
+        // Step 4: Effectiveness Functions
+        function updateEffectivenessDisplay(value) {
+            effectivenessValue.textContent = value + '%';
+            
+            let description = '';
+            if (value <= 17) {
+                description = 'Conservative savings estimate';
+            } else if (value <= 22) {
+                description = 'Good savings potential';
+            } else if (value <= 27) {
+                description = 'Strong savings potential';
+            } else {
+                description = 'Excellent savings potential';
+            }
+            
+            effectivenessDescription.textContent = description;
+        }
+
+        // Summary Updates
+        function updateSummaries() {
+            // Note: Summary elements have been removed from the UI
+            // This function is kept for compatibility but doesn't update any elements
+        }
+
+        // Step Validation
+        function validateCurrentStep() {
+            hideValidationMessages();
+            
+            switch(wizardState.currentStep) {
+                case 1:
+                    const rate = wizardState.formData.electricRate;
+                    const isValid = rate >= 0.08 && rate <= 0.35;
+                    if (!isValid) {
+                        showValidationMessage('step1');
+                    }
+                    return isValid;
+                
+                case 2:
+                    const totalUnits = Object.values(wizardState.formData.systems).reduce((a, b) => a + b, 0);
+                    const hasUnits = totalUnits > 0;
+                    if (!hasUnits) {
+                        showValidationMessage('step2');
+                    }
+                    return hasUnits;
+                
+                case 3:
+                case 4:
+                    return true; // These steps have default selections
+                
+                default:
+                    return true;
+            }
+        }
+
+        function showValidationMessage(step) {
+            const message = validationMessages[step];
+            if (message) {
+                message.classList.add('show');
+            }
+        }
+
+        function hideValidationMessages() {
+            Object.values(validationMessages).forEach(message => {
+                message.classList.remove('show');
+            });
+        }
+
+        // Navigation Functions
+        function nextStep() {
+            if (validateCurrentStep() && wizardState.currentStep < wizardState.totalSteps) {
+                if (!wizardState.completedSteps.includes(wizardState.currentStep)) {
+                    wizardState.completedSteps.push(wizardState.currentStep);
+                }
+                wizardState.currentStep++;
+                showStep(wizardState.currentStep);
+                updateProgress();
+            }
+        }
+
+        function previousStep() {
+            if (wizardState.currentStep > 1) {
+                wizardState.currentStep--;
+                showStep(wizardState.currentStep);
+                updateProgress();
+            }
+        }
+
+        function navigateToStep(stepNumber) {
+            if (stepNumber >= 1 && stepNumber <= wizardState.totalSteps) {
+                wizardState.currentStep = stepNumber;
+                showStep(wizardState.currentStep);
+                updateProgress();
+            }
+        }
+
+        function showStep(stepNumber) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                if (index + 1 === stepNumber) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        function updateProgress() {
+            const progressPercentage = (wizardState.currentStep / wizardState.totalSteps) * 100;
+            progressFill.style.width = progressPercentage + '%';
+
+            progressSteps.forEach((step, index) => {
+                const stepNumber = index + 1;
+                step.classList.remove('active', 'completed', 'clickable');
+                
+                if (stepNumber === wizardState.currentStep) {
+                    step.classList.add('active');
+                } else if (wizardState.completedSteps.includes(stepNumber)) {
+                    step.classList.add('completed', 'clickable');
+                    const circle = step.querySelector('.step-circle');
+                    // Keep the icon but could add a checkmark overlay
+                    circle.style.background = 'linear-gradient(135deg, var(--accent-green), #047857)';
+                } else {
+                    const circle = step.querySelector('.step-circle');
+                    const stepIcons = ['💰', '❄️', '📊', '📈'];
+                    circle.innerHTML = stepIcons[stepNumber - 1];
+                    circle.style.background = '';
+                }
+                
+                // Allow clicking on completed steps or previous steps
+                if (stepNumber < wizardState.currentStep || step.classList.contains('completed')) {
+                    step.classList.add('clickable');
+                }
+            });
         }
 
         // Calculation Functions
-        function calculateTotalKwh() {
-            let total = 0;
-            Object.keys(state.systems).forEach(type => {
-                total += state.systems[type] * consumptionRanges[type][state.usageIntensity];
-            });
-            return total;
-        }
-
-        function calculateSystemLifeSavings() {
-            let total = 0;
-            let minTotal = 0;
-            let maxTotal = 0;
+        function calculateResults() {
+            const { electricRate, systems, usageIntensity, effectiveness } = wizardState.formData;
             
-            Object.keys(state.systems).forEach(type => {
-                const count = state.systems[type];
-                const range = systemLifeSavingsRanges[type];
-                const average = (range.min + range.max) / 2;
-                
-                total += count * average;
-                minTotal += count * range.min;
-                maxTotal += count * range.max;
+            // Calculate total monthly kWh consumption
+            let totalMonthlyKwh = 0;
+            Object.keys(systems).forEach(systemType => {
+                const count = systems[systemType];
+                const consumption = consumptionRanges[systemType][usageIntensity];
+                totalMonthlyKwh += count * consumption;
             });
-            
-            return { total, min: minTotal, max: maxTotal };
-        }
 
-        function calculateTotalSquareFootage() {
-            let total = 0;
-            Object.keys(state.systems).forEach(type => {
-                total += state.systems[type] * squareFootagePerUnit[type];
-            });
-            return total;
-        }
-
-        function calculateTaxBenefit() {
-            return calculateTotalSquareFootage() * 2.90;
-        }
-
-        function calculateSavings() {
-            const totalKwh = calculateTotalKwh();
-            const monthlySavings = totalKwh * (state.effectiveness / 100) * state.electricRate;
+            // Energy savings calculations
+            const monthlySavings = totalMonthlyKwh * (effectiveness / 100) * electricRate;
             const annualSavings = monthlySavings * 12;
             const fiveYearSavings = annualSavings * 5;
-            
-            const equipmentSavings = calculateSystemLifeSavings();
-            const totalProgramValue = fiveYearSavings + equipmentSavings.total;
-            
-            // Calculate investment and payback
-            let totalInvestment = 0;
-            Object.keys(state.systems).forEach(type => {
-                const count = state.systems[type];
-                const monthlyUnitSavings = consumptionRanges[type][state.usageIntensity] * 
-                                         (state.effectiveness / 100) * state.electricRate;
-                const equipmentCost = Math.max(1000, monthlyUnitSavings * 11);
-                totalInvestment += count * equipmentCost;
+
+            // Equipment protection calculations
+            let equipmentSavings = 0;
+            Object.keys(systems).forEach(systemType => {
+                const count = systems[systemType];
+                const range = systemLifeSavingsRanges[systemType];
+                const avgSavings = (range.min + range.max) / 2;
+                equipmentSavings += count * avgSavings;
             });
-            
-            const paybackMonths = monthlySavings > 0 ? Math.round(totalInvestment / monthlySavings) : 0;
-            const taxBenefit = calculateTaxBenefit();
-            const squareFootage = calculateTotalSquareFootage();
-            
+
+            // Investment calculations
+            let totalInvestment = 0;
+            Object.keys(systems).forEach(systemType => {
+                const count = systems[systemType];
+                const monthlyUnitConsumption = consumptionRanges[systemType][usageIntensity];
+                const monthlyUnitSavings = monthlyUnitConsumption * (effectiveness / 100) * electricRate;
+                const unitInvestment = Math.max(1000, monthlyUnitSavings * 11);
+                totalInvestment += count * unitInvestment;
+            });
+
+            // Payback calculation
+            const paybackMonths = totalInvestment / monthlySavings;
+
+            // Tax benefits calculation
+            let totalSquareFootage = 0;
+            Object.keys(systems).forEach(systemType => {
+                const count = systems[systemType];
+                totalSquareFootage += count * squareFootagePerUnit[systemType];
+            });
+            const taxBenefit = totalSquareFootage * 2.90;
+
+            // Total program value
+            const totalProgramValue = fiveYearSavings + equipmentSavings;
+
             return {
-                monthly: monthlySavings,
-                annual: annualSavings,
-                fiveYear: fiveYearSavings,
-                equipment: equipmentSavings,
-                totalValue: totalProgramValue,
-                investment: totalInvestment,
-                payback: paybackMonths,
-                taxBenefit: taxBenefit,
-                squareFootage: squareFootage,
-                totalKwh: totalKwh
+                energy: {
+                    monthly: monthlySavings,
+                    annual: annualSavings,
+                    fiveYear: fiveYearSavings
+                },
+                equipment: {
+                    total: equipmentSavings,
+                    ranges: Object.keys(systems).reduce((acc, systemType) => {
+                        const count = systems[systemType];
+                        if (count > 0) {
+                            const range = systemLifeSavingsRanges[systemType];
+                            acc[systemType] = {
+                                min: count * range.min,
+                                max: count * range.max,
+                                count
+                            };
+                        }
+                        return acc;
+                    }, {})
+                },
+                investment: {
+                    total: totalInvestment,
+                    paybackMonths
+                },
+                tax: {
+                    benefit: taxBenefit,
+                    squareFootage: totalSquareFootage
+                },
+                total: {
+                    value: totalProgramValue
+                },
+                summary: {
+                    totalKwh: totalMonthlyKwh,
+                    totalUnits: Object.values(systems).reduce((a, b) => a + b, 0)
+                }
             };
         }
 
-        function updateResults() {
-            const savings = calculateSavings();
-            
-            // Energy Cost Savings
-            document.getElementById('annualSavings').textContent = '$' + Math.round(savings.annual).toLocaleString();
-            document.getElementById('fiveYearSavings').textContent = '$' + Math.round(savings.fiveYear).toLocaleString();
-            
-            // Equipment Value Protection
-            document.getElementById('equipmentSavings').textContent = '$' + Math.round(savings.equipment.total).toLocaleString();
-            document.getElementById('equipmentRange').textContent = 
-                `($${Math.round(savings.equipment.min).toLocaleString()} - $${Math.round(savings.equipment.max).toLocaleString()}+ range)`;
-            
-            // Total Program Value
-            document.getElementById('totalValue').textContent = '$' + Math.round(savings.totalValue).toLocaleString();
-            
-            // Tax Benefits
-            document.getElementById('taxBenefit').textContent = '$' + Math.round(savings.taxBenefit).toLocaleString();
-            document.getElementById('squareFootage').textContent = Math.round(savings.squareFootage).toLocaleString();
-            
-            // Investment & Payback
-            document.getElementById('totalInvestment').textContent = '$' + Math.round(savings.investment).toLocaleString();
-            document.getElementById('paybackPeriod').textContent = savings.payback + ' months';
-            
-            // Configuration Summary
-            document.getElementById('summaryRate').textContent = '$' + state.electricRate.toFixed(2) + '/kWh';
-            
-            const totalUnits = state.systems.threeTon + state.systems.fiveTon + state.systems.tenTon;
-            document.getElementById('summaryUnits').textContent = totalUnits.toString();
-            
-            document.getElementById('summaryUsage').textContent = usageLabels[state.usageIntensity];
-            document.getElementById('summaryConsumption').textContent = Math.round(savings.totalKwh).toLocaleString() + ' kWh';
-            document.getElementById('summaryEffectiveness').textContent = state.effectiveness + '%';
+        function showResults() {
+            if (validateCurrentStep()) {
+                wizardState.showResults = true;
+                const results = calculateResults();
+                displayResults(results);
+                
+                // Hide wizard and show results
+                document.querySelector('.wizard-container').style.display = 'none';
+                document.querySelector('.progress-container').style.display = 'none';
+                
+                // Update header
+                document.querySelector('.subtitle').textContent = 'Your personalized HVAC savings analysis';
+            }
         }
 
-        // Initialize
-        updateResults();
+        function updateUI() {
+            updateRateButtonStates();
+            updateSystemDisplays();
+            updateEffectivenessDisplay(wizardState.formData.effectiveness);
+            updateProgress();
+            
+            // Set initial usage intensity
+            selectUsageIntensity(wizardState.formData.usageIntensity);
+        }
+
+        function displayResults(results) {
+            // Show results container
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.classList.add('show');
+
+            // Format currency values
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount);
+            };
+
+            const formatNumber = (num) => {
+                return new Intl.NumberFormat('en-US').format(Math.round(num));
+            };
+
+            // Energy Savings Card
+            document.getElementById('annualEnergySavings').textContent = formatCurrency(results.energy.annual);
+            document.getElementById('fiveYearEnergySavings').textContent = formatCurrency(results.energy.fiveYear) + ' over 5 years';
+
+            // Equipment Protection Card
+            document.getElementById('equipmentSavings').textContent = formatCurrency(results.equipment.total);
+            
+            // Equipment breakdown
+            const breakdownContainer = document.getElementById('equipmentBreakdown');
+            breakdownContainer.innerHTML = '';
+            Object.keys(results.equipment.ranges).forEach(systemType => {
+                const range = results.equipment.ranges[systemType];
+                const systemNames = {
+                    threeTon: '3-Ton Units',
+                    fiveTon: '5-Ton Units',
+                    tenTon: '10-Ton Units'
+                };
+                
+                const div = document.createElement('div');
+                div.className = 'breakdown-item';
+                div.innerHTML = `
+                    <span>${range.count}x ${systemNames[systemType]}</span>
+                    <span>${formatCurrency(range.min)} - ${formatCurrency(range.max)}</span>
+                `;
+                breakdownContainer.appendChild(div);
+            });
+
+            // Total Program Value Card
+            document.getElementById('totalProgramValue').textContent = formatCurrency(results.total.value);
+
+            // Tax Benefits Card
+            document.getElementById('taxBenefit').textContent = formatCurrency(results.tax.benefit);
+            document.getElementById('squareFootageDisplay').textContent = formatNumber(results.tax.squareFootage) + ' sq ft facility';
+
+            // Investment & Payback Card
+            document.getElementById('totalInvestment').textContent = formatCurrency(results.investment.total);
+            const paybackYears = Math.floor(results.investment.paybackMonths / 12);
+            const paybackMonths = Math.round(results.investment.paybackMonths % 12);
+            let paybackText = '';
+            if (paybackYears > 0) {
+                paybackText = `${paybackYears} year${paybackYears > 1 ? 's' : ''}`;
+                if (paybackMonths > 0) {
+                    paybackText += `, ${paybackMonths} month${paybackMonths > 1 ? 's' : ''}`;
+                }
+            } else {
+                paybackText = `${paybackMonths} month${paybackMonths > 1 ? 's' : ''}`;
+            }
+            document.getElementById('paybackPeriod').textContent = paybackText + ' payback';
+
+            // Configuration Summary Card
+            const { formData } = wizardState;
+            const systems = formData.systems;
+            const systemParts = [];
+            if (systems.threeTon > 0) systemParts.push(`${systems.threeTon}x 3-ton`);
+            if (systems.fiveTon > 0) systemParts.push(`${systems.fiveTon}x 5-ton`);
+            if (systems.tenTon > 0) systemParts.push(`${systems.tenTon}x 10-ton`);
+            
+            const usageLabels = ['Light Usage', 'Moderate Usage', 'Heavy Usage'];
+            const configText = `
+                <div style="margin-bottom: 0.5rem;"><strong>Electric Rate:</strong> ${formData.electricRate.toFixed(2)}/kWh</div>
+                <div style="margin-bottom: 0.5rem;"><strong>HVAC Systems:</strong> ${systemParts.join(', ')}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Usage Pattern:</strong> ${usageLabels[formData.usageIntensity]}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Monthly Consumption:</strong> ${formatNumber(results.summary.totalKwh)} kWh</div>
+                <div><strong>Expected Savings:</strong> ${formData.effectiveness}%</div>
+            `;
+            document.getElementById('configSummary').innerHTML = configText;
+        }
+
+        function startOver() {
+            // Reset wizard state
+            wizardState.currentStep = 1;
+            wizardState.completedSteps = [];
+            wizardState.showResults = false;
+            wizardState.formData = {
+                electricRate: 0.15,
+                systems: { threeTon: 0, fiveTon: 1, tenTon: 0 },
+                usageIntensity: 1,
+                effectiveness: 20
+            };
+
+            // Hide results and show wizard
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.querySelector('.wizard-container').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            
+            // Reset header
+            document.querySelector('.subtitle').textContent = 'Calculate your energy savings and ROI in 4 simple steps';
+
+            // Reset all form elements and UI
+            updateUI();
+            updateSummaries();
+            showStep(1);
+            hideValidationMessages();
+        }
+
+        function modifyInputs() {
+            // Hide results and show wizard at current step
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.querySelector('.wizard-container').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            
+            // Reset header
+            document.querySelector('.subtitle').textContent = 'Calculate your energy savings and ROI in 4 simple steps';
+            
+            // Go to step 1 but keep all data
+            wizardState.currentStep = 1;
+            wizardState.showResults = false;
+            showStep(1);
+            updateProgress();
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
