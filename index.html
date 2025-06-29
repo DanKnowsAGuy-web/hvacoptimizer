@@ -1030,6 +1030,48 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
+        /* Primary CTA Section Styles */
+        .primary-cta-section {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta-button {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            border: none;
+            border-radius: 12px;
+            padding: 1.25rem 2.5rem;
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-width: 200px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .primary-cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .primary-cta-button:nth-child(2) {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .primary-cta-button:nth-child(2):hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
         .actions-container {
             margin-top: 3rem;
             text-align: center;
@@ -1185,6 +1227,18 @@
 
             .primary-value {
                 font-size: 1.75rem;
+            }
+
+            .primary-cta-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .primary-cta-button {
+                min-width: auto;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
             }
 
             .action-buttons {
@@ -1684,6 +1738,14 @@
             </div>
 
             <div class="actions-container">
+                <div class="primary-cta-section">
+                    <a href="sms:+18647770888?body=Hi%20Daniel!%20I%20just%20calculated%20HVAC%20savings%20and%20would%20like%20to%20discuss%20implementation." class="primary-cta-button">
+                        📱 Text Expert for Review
+                    </a>
+                    <a href="https://zcal.co/danielg/strategy" target="_blank" rel="noopener" class="primary-cta-button">
+                        📅 Book 15-Min Strategy Call
+                    </a>
+                </div>
                 <div class="action-buttons">
                     <button class="action-button" onclick="startOver()">
                         <span>🔄</span>
