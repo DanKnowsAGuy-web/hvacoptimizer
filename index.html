@@ -1331,10 +1331,10 @@
     <div class="calculator-container">
         <div class="header">
             <h1 class="title">
-                <span class="title-icon">🏢</span>
+                <span class="title-icon">⚡</span>
                 HVAC Savings Calculator
             </h1>
-            <p class="subtitle">Calculate your energy savings and ROI in 4 simple steps</p>
+            <p class="subtitle">Calculate Your Savings & ROI in 4 Simple Steps</p>
         </div>
 
         <div class="progress-container">
@@ -1343,7 +1343,7 @@
             </div>
             <div class="progress-steps">
                 <div class="progress-step active" data-step="1">
-                    <div class="step-circle">💰</div>
+                    <div class="step-circle">⚡</div>
                     <span>Electric Rate</span>
                 </div>
                 <div class="progress-step" data-step="2">
@@ -1365,7 +1365,7 @@
             <!-- Step 1: Electric Rate Selection -->
             <div class="step active" id="step1">
                 <div class="card">
-                    <h2 class="card-title">Step 1: Select Your Region's Electric Rate</h2>
+                    <h2 class="card-title">⚡ Step 1: Select Your Region's Electric Rate</h2>
 
                     
                     <div class="rate-buttons">
@@ -1421,7 +1421,7 @@
             <!-- Step 2: HVAC Systems Configuration -->
             <div class="step" id="step2">
                 <div class="card">
-                    <h2 class="card-title">Step 2: Select Your HVAC Systems Mix</h2>
+                    <h2 class="card-title">❄️ Step 2: Select Your HVAC Systems Mix</h2>
 
                     
                     <div class="systems-grid">
@@ -1488,7 +1488,7 @@
             <!-- Step 3: Usage Intensity Selection -->
             <div class="step" id="step3">
                 <div class="card">
-                    <h2 class="card-title">Step 3: Select Usage Intensity</h2>
+                    <h2 class="card-title">📊 Step 3: Select Usage Intensity</h2>
 
                     
                     <div class="usage-options">
@@ -1539,7 +1539,7 @@
             <!-- Step 4: Savings Effectiveness -->
             <div class="step" id="step4">
                 <div class="card">
-                    <h2 class="card-title">Step 4: Expected Savings from HVAC Optimizer</h2>
+                    <h2 class="card-title">📈 Step 4: Expected Savings from HVAC Optimizer</h2>
 
                     
                     <div class="slider-container">
@@ -1653,10 +1653,10 @@
                     </div>
                     <div class="result-values">
                         <div class="primary-value" id="totalInvestment">$0</div>
-                        <div class="secondary-value" id="paybackPeriod">0 months payback</div>
+                        <div class="secondary-value" style="font-weight: 600; font-size: 1.1rem;" id="paybackPeriod">0 months payback</div>
                     </div>
                     <div class="result-description">
-                        Estimated total program investment and time to break even
+                        Estimated total program investment and time to break even based on energy savings alone.
                     </div>
                 </div>
 
@@ -2047,7 +2047,7 @@
                     circle.style.background = 'linear-gradient(135deg, var(--accent-green), #047857)';
                 } else {
                     const circle = step.querySelector('.step-circle');
-                    const stepIcons = ['💰', '❄️', '📊', '📈'];
+                    const stepIcons = ['⚡', '❄️', '📊', '📈'];
                     circle.innerHTML = stepIcons[stepNumber - 1];
                     circle.style.background = '';
                 }
@@ -2227,7 +2227,7 @@
             document.getElementById('squareFootageDisplay').textContent = formatNumber(results.tax.squareFootage) + ' sq ft facility';
 
             // Investment & Payback Card
-            document.getElementById('totalInvestment').textContent = formatCurrency(results.investment.total);
+            document.getElementById('totalInvestment').textContent = "Estimated Program Cost: " + formatCurrency(results.investment.total);
             const paybackYears = Math.floor(results.investment.paybackMonths / 12);
             const paybackMonths = Math.round(results.investment.paybackMonths % 12);
             let paybackText = '';
@@ -2278,7 +2278,7 @@
             document.querySelector('.progress-container').style.display = 'block';
             
             // Reset header
-            document.querySelector('.subtitle').textContent = 'Calculate your energy savings and ROI in 4 simple steps';
+            document.querySelector('.subtitle').textContent = 'Calculate Your Savings & ROI in 4 Simple Steps';
 
             // Reset all form elements and UI
             updateUI();
@@ -2294,7 +2294,7 @@
             document.querySelector('.progress-container').style.display = 'block';
             
             // Reset header
-            document.querySelector('.subtitle').textContent = 'Calculate your energy savings and ROI in 4 simple steps';
+            document.querySelector('.subtitle').textContent = 'Calculate Your Savings & ROI in 4 Simple Steps';
             
             // Go to step 1 but keep all data
             wizardState.currentStep = 1;
