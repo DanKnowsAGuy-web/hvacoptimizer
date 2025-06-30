@@ -11,16 +11,16 @@
             --bg-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
-            --accent-blue: #3b82f6;
-            --accent-blue-light: #60a5fa;
-            --accent-purple: #a78bfa;
-            --accent-pink: #f472b6;
+            --accent-blue: #06b6d4;
+            --accent-blue-light: #22d3ee;
+            --accent-purple: #f97316;
+            --accent-pink: #fb923c;
             --accent-green: #10b981;
             --accent-red: #ef4444;
             --border-radius: 12px;
             --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
+            --shadow-glow: 0 0 30px rgba(6, 182, 212, 0.3);
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
             --transition-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -189,7 +189,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
             width: 25%;
             transition: width 0.8s var(--transition-spring);
             position: relative;
@@ -290,9 +290,9 @@
         }
 
         .progress-step.active .step-circle {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             color: white;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 0 0 50px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.6), 0 0 50px rgba(6, 182, 212, 0.3);
             transform: scale(1.1);
         }
 
@@ -361,7 +361,7 @@
         .card:hover {
             transform: translateY(-12px) scale(1.02);
             box-shadow: var(--shadow-hover), var(--shadow-glow);
-            border-color: rgba(59, 130, 246, 0.4);
+            border-color: rgba(6, 182, 212, 0.4);
         }
 
         .card:hover::before {
@@ -412,9 +412,9 @@
         }
 
         .rate-button.active {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            border-color: #06b6d4;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
             color: white;
         }
 
@@ -490,10 +490,10 @@
         }
 
         .system-item:hover {
-            border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.15);
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.15);
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.2);
         }
 
         .system-item:hover::before {
@@ -501,7 +501,7 @@
         }
 
         .counter-button {
-            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             border: none;
             border-radius: 8px;
             width: 36px;
@@ -670,7 +670,7 @@
             appearance: none;
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
@@ -685,7 +685,7 @@
         .effectiveness-slider::-moz-range-thumb {
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             border-radius: 50%;
             cursor: pointer;
             border: none;
@@ -782,7 +782,7 @@
         }
 
         .nav-button {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
             border: none;
             border-radius: 8px;
             padding: 0.75rem 1.5rem;
@@ -819,13 +819,13 @@
         }
 
         .nav-button.cta {
-            background: linear-gradient(135deg, var(--accent-green), #059669);
+            background: linear-gradient(135deg, #f97316, #ea580c);
             font-size: 1.125rem;
             padding: 1rem 2rem;
         }
 
         .nav-button.cta:hover {
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
         }
 
         /* Validation Styles */
@@ -1089,7 +1089,7 @@
         }
 
         .primary-cta-button {
-            background: linear-gradient(135deg, var(--accent-green), #059669);
+            background: linear-gradient(135deg, #f97316, #ea580c);
             border: none;
             border-radius: 12px;
             padding: 1.25rem 2.5rem;
@@ -1104,12 +1104,12 @@
             justify-content: center;
             gap: 0.5rem;
             min-width: 200px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
         }
 
         .primary-cta-button:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
         }
 
         .primary-cta-button:nth-child(2) {
