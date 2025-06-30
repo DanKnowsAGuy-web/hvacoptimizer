@@ -1121,6 +1121,15 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
+        .top-cta-section {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.5s forwards;
+        }
+
         .actions-container {
             margin-top: 3rem;
             text-align: center;
@@ -1298,6 +1307,18 @@
             .action-button {
                 justify-content: center;
             }
+
+            .top-cta-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .top-cta-section .primary-cta-button {
+                min-width: auto;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1444,6 +1465,14 @@
                 HVAC Savings Calculator
             </h1>
             <p class="subtitle">Calculate Your Savings & ROI in 4 Simple Steps</p>
+            <div class="top-cta-section" id="topCtaSection" style="display: none; margin-top: 1.5rem;">
+                <a href="sms:+18647770888?body=Hi%20Daniel!%20I%20just%20calculated%20HVAC%20savings%20and%20would%20like%20to%20discuss%20implementation." class="primary-cta-button">
+                    📱 Text Expert for Review
+                </a>
+                <a href="https://zcal.co/danielg/strategy" target="_blank" rel="noopener" class="primary-cta-button">
+                    📅 Book 15-Min Strategy Call
+                </a>
+            </div>
         </div>
 
         <div class="progress-container">
@@ -2288,6 +2317,10 @@
                 
                 // Update header
                 document.querySelector('.subtitle').textContent = 'Your personalized HVAC savings analysis';
+                
+                // Show top CTA buttons
+                const topCtaSection = document.getElementById('topCtaSection');
+                topCtaSection.style.display = 'flex';
             }
         }
 
@@ -2407,6 +2440,12 @@
             
             // Reset header
             document.querySelector('.subtitle').textContent = 'Calculate Your Savings & ROI in 4 Simple Steps';
+            
+            // Hide top CTA buttons
+            document.getElementById('topCtaSection').style.display = 'none';
+            
+            // Hide top CTA buttons
+            document.getElementById('topCtaSection').style.display = 'none';
 
             // Reset all form elements and UI
             updateUI();
